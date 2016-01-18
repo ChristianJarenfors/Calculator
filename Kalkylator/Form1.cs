@@ -148,6 +148,10 @@ namespace wincalcmini
             if (!isCalcSelected)
             {
                 selectedcalcmethod = 2;
+                if (textBoxCalculations.Text != null)
+                {
+                    textBoxCalculations.Text += CalcMethod[(selectedcalcmethod - 2)];
+                }
             }
             calculate(selectedcalcmethod);
             selectedcalcmethod = 2;
@@ -158,6 +162,10 @@ namespace wincalcmini
             if (!isCalcSelected)
             {
                 selectedcalcmethod = 3;
+                if (textBoxCalculations.Text != null)
+                {
+                    textBoxCalculations.Text += CalcMethod[(selectedcalcmethod - 2)];
+                }
             }
             calculate(selectedcalcmethod);
             selectedcalcmethod = 3;
@@ -168,6 +176,10 @@ namespace wincalcmini
             if (!isCalcSelected)
             {
                 selectedcalcmethod = 4;
+                if (textBoxCalculations.Text != null)
+                {
+                    textBoxCalculations.Text += CalcMethod[(selectedcalcmethod - 2)];
+                }
             }
             calculate(selectedcalcmethod);
             selectedcalcmethod = 4;
@@ -178,6 +190,10 @@ namespace wincalcmini
             if (!isCalcSelected)
             {
                 selectedcalcmethod = 5;
+                if (textBoxCalculations.Text != null)
+                {
+                    textBoxCalculations.Text += CalcMethod[(selectedcalcmethod - 2)];
+                }
             }
             calculate(selectedcalcmethod);
             selectedcalcmethod = 5;
@@ -240,6 +256,7 @@ namespace wincalcmini
             textBoxCalculations.Text = ((HistoryRecord)listBoxHistory.SelectedItem).s;
             textBoxOutput.Text = ((HistoryRecord)listBoxHistory.SelectedItem).sum.ToString();
             currentSum = ((HistoryRecord)listBoxHistory.SelectedItem).sum;
+            inputIsNotDone = false;
         }
     }
 }
