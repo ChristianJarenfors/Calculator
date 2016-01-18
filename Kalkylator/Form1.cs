@@ -215,6 +215,7 @@ namespace wincalcmini
         private void buttonSum_Click(object sender, EventArgs e)
         {
             calculate(selectedcalcmethod);
+            textBoxCalculations.Text = textBoxCalculations.Text.Remove(textBoxCalculations.Text.Length - 1);
             listBoxHistory.Items.Add(new HistoryRecord(textBoxCalculations.Text, double.Parse(textBoxOutput.Text)));
             buttonC_Click(null, null);
         }
