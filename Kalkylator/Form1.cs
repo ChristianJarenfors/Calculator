@@ -214,8 +214,9 @@ namespace wincalcmini
 
         private void buttonSum_Click(object sender, EventArgs e)
         {
-
+            calculate(selectedcalcmethod);
             listBoxHistory.Items.Add(new HistoryRecord(textBoxCalculations.Text, double.Parse(textBoxOutput.Text)));
+            buttonC_Click(null, null);
         }
 
         private void buttonC_Click(object sender, EventArgs e)
@@ -235,7 +236,9 @@ namespace wincalcmini
 
         private void listBoxHistory_MouseDoubleClick(object sender, MouseEventArgs e)
         {
+            textBoxCalculations.Text = ((HistoryRecord)listBoxHistory.SelectedItem).s;
             textBoxOutput.Text = ((HistoryRecord)listBoxHistory.SelectedItem).sum.ToString();
+            currentSum = ((HistoryRecord)listBoxHistory.SelectedItem).sum;
         }
     }
 }
