@@ -146,72 +146,79 @@ namespace wincalcmini
 
         private void buttonPlus_Click(object sender, EventArgs e)
         {
-            if (!isCalcSelected)
-            {
-                selectedcalcmethod = 2;
-                if (Doubleloader)
-                {
-                    textBoxCalculations.Text += CalcMethod[(selectedcalcmethod - 2)];
-                    Doubleloader = false;
-                }
-            }
+            //if (!isCalcSelected)
+            //{
+            //    selectedcalcmethod = 2;
+            //    if (Doubleloader)
+            //    {
+            //        textBoxCalculations.Text += CalcMethod[(selectedcalcmethod - 2)];
+            //        Doubleloader = false;
+            //    }
+            //}
             //textBoxCalculations.Text += textBoxOutput.Text + CalcMethod[(selectedcalcmethod - 2)];
+            
             calculate(selectedcalcmethod);
             selectedcalcmethod = 2;
+            CalcTextboxUpdate(2);
         }
 
         private void buttonMinus_Click(object sender, EventArgs e)
         {
-            if (!isCalcSelected)
-            {
-                selectedcalcmethod = 3;
-                if (Doubleloader)
-                {
-                    textBoxCalculations.Text += CalcMethod[(selectedcalcmethod - 2)];
-                    Doubleloader = false;
-                }
-            }
+            //if (!isCalcSelected)
+            //{
+            //    selectedcalcmethod = 3;
+            //    if (Doubleloader)
+            //    {
+            //        textBoxCalculations.Text += CalcMethod[(selectedcalcmethod - 2)];
+            //        Doubleloader = false;
+            //    }
+            //}
             //textBoxCalculations.Text += textBoxOutput.Text + CalcMethod[(selectedcalcmethod - 2)];
+            
             calculate(selectedcalcmethod);
             selectedcalcmethod = 3;
+            CalcTextboxUpdate(3);
         }
 
         private void buttonMultiply_Click(object sender, EventArgs e)
         {
-            if (!isCalcSelected)
-            {
-                selectedcalcmethod = 4;
-                if (Doubleloader)
-                {
-                    textBoxCalculations.Text += CalcMethod[(selectedcalcmethod - 2)];
-                    Doubleloader = false;
-                }
-            }
+            //if (!isCalcSelected)
+            //{
+            //    selectedcalcmethod = 4;
+            //    if (Doubleloader)
+            //    {
+            //        textBoxCalculations.Text += CalcMethod[(selectedcalcmethod - 2)];
+            //        Doubleloader = false;
+            //    }
+            //}
             //textBoxCalculations.Text += textBoxOutput.Text + CalcMethod[(selectedcalcmethod - 2)];
+            
             calculate(selectedcalcmethod);
             selectedcalcmethod = 4;
+            CalcTextboxUpdate(4);
         }
 
         private void buttonDivision_Click(object sender, EventArgs e)
         {
-            if (!isCalcSelected)
-            {
-                selectedcalcmethod = 5;
-                if (Doubleloader)
-                {
-                    textBoxCalculations.Text += CalcMethod[(selectedcalcmethod - 2)];
-                    Doubleloader = false;
-                }
-            }
+            //if (!isCalcSelected)
+            //{
+            //    selectedcalcmethod = 5;
+            //    if (Doubleloader)
+            //    {
+            //        textBoxCalculations.Text += CalcMethod[(selectedcalcmethod - 2)];
+            //        Doubleloader = false;
+            //    }
+            //}
             
             calculate(selectedcalcmethod);
             selectedcalcmethod = 5;
+            CalcTextboxUpdate(5);
         }
         public void calculate(int operation)
         {
             if (!inputIsNotDone)
             {
-                textBoxCalculations.Text += textBoxOutput.Text + CalcMethod[(selectedcalcmethod - 2)];
+                //textBoxCalculations.Text += textBoxOutput.Text + CalcMethod[(selectedcalcmethod - 2)];
                 if (isCalcSelected)
                 {
                     
@@ -240,6 +247,7 @@ namespace wincalcmini
 
         private void buttonSum_Click(object sender, EventArgs e)
         {
+            CalcTextboxUpdate(selectedcalcmethod);
             calculate(selectedcalcmethod);
             textBoxCalculations.Text = textBoxCalculations.Text.Remove(textBoxCalculations.Text.Length - 1);
             listBoxHistory.Items.Add(new HistoryRecord(textBoxCalculations.Text, double.Parse(textBoxOutput.Text)));
@@ -263,18 +271,19 @@ namespace wincalcmini
 
         private void listBoxHistory_MouseDoubleClick(object sender, MouseEventArgs e)
         {
+            buttonC_Click(null,null);
             textBoxCalculations.Text = ((HistoryRecord)listBoxHistory.SelectedItem).s;
             textBoxOutput.Text = ((HistoryRecord)listBoxHistory.SelectedItem).sum.ToString();
             currentSum = ((HistoryRecord)listBoxHistory.SelectedItem).sum;
-            inputIsNotDone = true;
-            Doubleloader = true;
-            isCalcSelected = false;
+            //inputIsNotDone = true;
+            //Doubleloader = true;
+            //isCalcSelected = false;
         }
-        public void CalcTextboxUpdate()
+        public void CalcTextboxUpdate(int i)
         {
             if (!isCalcSelected)
             {
-                selectedcalcmethod = 5;
+                selectedcalcmethod = i;
                 if (Doubleloader)
                 {
                     textBoxCalculations.Text += CalcMethod[(selectedcalcmethod - 2)];
