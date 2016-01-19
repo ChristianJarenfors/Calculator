@@ -156,10 +156,12 @@ namespace wincalcmini
             //    }
             //}
             //textBoxCalculations.Text += textBoxOutput.Text + CalcMethod[(selectedcalcmethod - 2)];
-            
-            calculate(selectedcalcmethod);
             selectedcalcmethod = 2;
             CalcTextboxUpdate(2);
+            calculate(selectedcalcmethod);
+            
+            
+            
             inputIsNotDone = true;
         }
 
@@ -175,10 +177,12 @@ namespace wincalcmini
             //    }
             //}
             //textBoxCalculations.Text += textBoxOutput.Text + CalcMethod[(selectedcalcmethod - 2)];
-            
-            calculate(selectedcalcmethod);
             selectedcalcmethod = 3;
             CalcTextboxUpdate(3);
+            calculate(selectedcalcmethod);
+            
+            
+            
             inputIsNotDone = true;
         }
 
@@ -194,10 +198,12 @@ namespace wincalcmini
             //    }
             //}
             //textBoxCalculations.Text += textBoxOutput.Text + CalcMethod[(selectedcalcmethod - 2)];
-            
-            calculate(selectedcalcmethod);
             selectedcalcmethod = 4;
             CalcTextboxUpdate(4);
+            calculate(selectedcalcmethod);
+            
+            
+            
             inputIsNotDone = true;
         }
 
@@ -212,10 +218,11 @@ namespace wincalcmini
             //        Doubleloader = false;
             //    }
             //}
-            
-            calculate(selectedcalcmethod);
             selectedcalcmethod = 5;
             CalcTextboxUpdate(5);
+            calculate(selectedcalcmethod);
+            
+            
             inputIsNotDone = true;
         }
         public void calculate(int operation)
