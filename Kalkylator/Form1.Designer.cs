@@ -247,6 +247,7 @@
             this.buttonPi.TabIndex = 15;
             this.buttonPi.Text = "π";
             this.buttonPi.UseVisualStyleBackColor = false;
+            this.buttonPi.Click += new System.EventHandler(this.buttonPi_Click);
             // 
             // buttonEuler
             // 
@@ -258,6 +259,7 @@
             this.buttonEuler.TabIndex = 16;
             this.buttonEuler.Text = "e";
             this.buttonEuler.UseVisualStyleBackColor = false;
+            this.buttonEuler.Click += new System.EventHandler(this.buttonEuler_Click);
             // 
             // buttonCE
             // 

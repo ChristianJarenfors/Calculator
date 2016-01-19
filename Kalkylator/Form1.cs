@@ -160,6 +160,7 @@ namespace wincalcmini
             calculate(selectedcalcmethod);
             selectedcalcmethod = 2;
             CalcTextboxUpdate(2);
+            inputIsNotDone = true;
         }
 
         private void buttonMinus_Click(object sender, EventArgs e)
@@ -178,6 +179,7 @@ namespace wincalcmini
             calculate(selectedcalcmethod);
             selectedcalcmethod = 3;
             CalcTextboxUpdate(3);
+            inputIsNotDone = true;
         }
 
         private void buttonMultiply_Click(object sender, EventArgs e)
@@ -196,6 +198,7 @@ namespace wincalcmini
             calculate(selectedcalcmethod);
             selectedcalcmethod = 4;
             CalcTextboxUpdate(4);
+            inputIsNotDone = true;
         }
 
         private void buttonDivision_Click(object sender, EventArgs e)
@@ -213,6 +216,7 @@ namespace wincalcmini
             calculate(selectedcalcmethod);
             selectedcalcmethod = 5;
             CalcTextboxUpdate(5);
+            inputIsNotDone = true;
         }
         public void calculate(int operation)
         {
@@ -229,15 +233,15 @@ namespace wincalcmini
                 {
                     currentSum = double.Parse(textBoxOutput.Text);
                 }
-                isCalcSelected = true;
                 
-                inputIsNotDone = true;
+                
+                
             }
-            else
-            {
-                textBoxCalculations.Text= textBoxCalculations.Text.Remove(textBoxCalculations.Text.Length-1);
-                textBoxCalculations.Text += CalcMethod[(operation - 2)];
-            }
+            //else
+            //{
+            //    textBoxCalculations.Text= textBoxCalculations.Text.Remove(textBoxCalculations.Text.Length-1);
+            //    textBoxCalculations.Text += CalcMethod[(operation - 2)];
+            //}
         }
         public void calculationStringUpdate(bool calcMethod,int operation)
         {
@@ -269,35 +273,54 @@ namespace wincalcmini
             inputIsNotDone = true;
         }
 
+        private void buttonPi_Click(object sender, EventArgs e)
+        {
+            textBoxOutput.Text = Methods[0].Invoke(null, new object[] { }).ToString();
+            inputIsNotDone = false;
+
+        }
+
+        private void buttonEuler_Click(object sender, EventArgs e)
+        {
+            textBoxOutput.Text = Methods[1].Invoke(null, new object[] { }).ToString();
+            inputIsNotDone = false;
+        }
+
         private void listBoxHistory_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             buttonC_Click(null,null);
             textBoxCalculations.Text = ((HistoryRecord)listBoxHistory.SelectedItem).s;
             textBoxOutput.Text = ((HistoryRecord)listBoxHistory.SelectedItem).sum.ToString();
             currentSum = ((HistoryRecord)listBoxHistory.SelectedItem).sum;
+            Doubleloader = true;
             //inputIsNotDone = true;
             //Doubleloader = true;
             //isCalcSelected = false;
         }
         public void CalcTextboxUpdate(int i)
         {
-            if (!isCalcSelected)
+            //if (!isCalcSelected)
+            //{
+            selectedcalcmethod = i;
+            if (Doubleloader)
             {
-                selectedcalcmethod = i;
-                if (Doubleloader)
-                {
-                    textBoxCalculations.Text += CalcMethod[(selectedcalcmethod - 2)];
-                    Doubleloader = false;
-                }
-            }
-            if (!inputIsNotDone)
-            {
-                textBoxCalculations.Text += textBoxOutput.Text + CalcMethod[(selectedcalcmethod - 2)];
+                textBoxCalculations.Text += CalcMethod[(selectedcalcmethod - 2)];
+                Doubleloader = false;
+                isCalcSelected = true;
             }
             else
             {
-                textBoxCalculations.Text = textBoxCalculations.Text.Remove(textBoxCalculations.Text.Length - 1);
-                textBoxCalculations.Text += CalcMethod[(selectedcalcmethod - 2)];
+                if (!inputIsNotDone)
+                {
+                    textBoxCalculations.Text += textBoxOutput.Text + CalcMethod[(selectedcalcmethod - 2)];
+                    isCalcSelected = true;
+                }
+                else
+                {
+                    textBoxCalculations.Text = textBoxCalculations.Text.Remove(textBoxCalculations.Text.Length - 1);
+                    textBoxCalculations.Text += CalcMethod[(selectedcalcmethod - 2)];
+                    isCalcSelected = true;
+                }
             }
         }
     }
