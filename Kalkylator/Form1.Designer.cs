@@ -295,6 +295,7 @@
             this.buttonSqrt.TabIndex = 19;
             this.buttonSqrt.Text = "√";
             this.buttonSqrt.UseVisualStyleBackColor = false;
+            this.buttonSqrt.Click += new System.EventHandler(this.buttonSqrt_Click);
             // 
             // listBoxHistory
             // 
@@ -347,6 +348,7 @@
             this.buttonBackDelete.TabIndex = 24;
             this.buttonBackDelete.Text = "<-";
             this.buttonBackDelete.UseVisualStyleBackColor = false;
+            this.buttonBackDelete.Click += new System.EventHandler(this.buttonBackDelete_Click);
             // 
             // buttonPosNeg
             // 
@@ -358,6 +360,7 @@
             this.buttonPosNeg.TabIndex = 25;
             this.buttonPosNeg.Text = "+-";
             this.buttonPosNeg.UseVisualStyleBackColor = false;
+            this.buttonPosNeg.Click += new System.EventHandler(this.buttonPosNeg_Click);
             // 
             // buttonSquare
             // 
@@ -368,6 +371,7 @@
             this.buttonSquare.Size = new System.Drawing.Size(50, 50);
             this.buttonSquare.TabIndex = 26;
             this.buttonSquare.UseVisualStyleBackColor = true;
+            this.buttonSquare.Click += new System.EventHandler(this.buttonSquare_Click);
             // 
             // Form1
             // 

@@ -286,6 +286,26 @@ namespace wincalcmini
             inputIsNotDone = false;
         }
 
+        private void buttonSqrt_Click(object sender, EventArgs e)
+        {
+            textBoxOutput.Text = Methods[6].Invoke(null, new object[] { double.Parse(textBoxOutput.Text) }).ToString();
+        }
+
+        private void buttonSquare_Click(object sender, EventArgs e)
+        {
+            textBoxOutput.Text = Methods[7].Invoke(null, new object[] { double.Parse(textBoxOutput.Text) }).ToString();
+        }
+
+        private void buttonBackDelete_Click(object sender, EventArgs e)
+        {
+            textBoxOutput.Text = textBoxOutput.Text.Remove(textBoxOutput.Text.Length - 1);
+        }
+
+        private void buttonPosNeg_Click(object sender, EventArgs e)
+        {
+            textBoxOutput.Text = Methods[8].Invoke(null, new object[] { double.Parse(textBoxOutput.Text) }).ToString();
+        }
+
         private void listBoxHistory_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             buttonC_Click(null,null);
