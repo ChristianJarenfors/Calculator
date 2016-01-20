@@ -13,7 +13,8 @@ namespace wincalcmini
         public double currentSum = 0;
         public bool inputIsNotDone = true, isCalcSelected = false, Doubleloader = false, firstInput = true;
         public int selectedcalcmethod, oldCalcMethod;
-        public Calcinfo(double CurrentSum,bool InputIsNotDone, bool IsCalcSelected, bool doubleloader, bool FirstInput,int SelectedCalcMethod, int OldCalcMethod)
+        public string Calculations,Output;
+        public Calcinfo(double CurrentSum,bool InputIsNotDone, bool IsCalcSelected, bool doubleloader, bool FirstInput,int SelectedCalcMethod, int OldCalcMethod,string calculations,string output)
         {
             currentSum = CurrentSum;
             inputIsNotDone = InputIsNotDone;
@@ -22,6 +23,8 @@ namespace wincalcmini
             firstInput = FirstInput;
             selectedcalcmethod = SelectedCalcMethod;
             oldCalcMethod = OldCalcMethod;
+            Calculations = calculations;
+            Output = output;
         }
         public Calcinfo()
         {

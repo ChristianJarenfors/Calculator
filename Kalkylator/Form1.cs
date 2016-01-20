@@ -16,7 +16,7 @@ namespace wincalcmini
     public partial class Form1 : Form
     {
         MethodInfo[] Methods;
-        Calcinfo CI= new Calcinfo()
+        //Calcinfo CI = new Calcinfo();
         double currentSum = 0;
         bool inputIsNotDone = true, isCalcSelected = false,Doubleloader = false,firstInput=true;
         
@@ -39,6 +39,7 @@ namespace wincalcmini
             CalcMethod.Add("/");
             textBoxCalculations.Text = null;
             LoadHistory();
+            LoadCurrentCalc();
         }
         bool decimalBoolNotUsed = true;
 
@@ -405,6 +406,7 @@ namespace wincalcmini
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
             SaveHistory();
+            SaveCurrentCalc();
         }
 
         private void listBoxHistory_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -447,7 +449,33 @@ namespace wincalcmini
         public void SaveCurrentCalc()
         {
             strömmen = File.Open("Restore1.bin", FileMode.Create, FileAccess.Write);
+            Calcinfo CI = new Calcinfo(currentSum, inputIsNotDone, isCalcSelected, Doubleloader, firstInput, selectedcalcmethod, oldCalcMethod,textBoxCalculations.Text,textBoxOutput.Text);
+            binForm.Serialize(strömmen, CI);
+            strömmen.Close();
 
+        }
+        public void LoadCurrentCalc()
+        {
+            if (File.Exists("Restore1.bin"))
+            {
+                Calcinfo CI= new Calcinfo();
+                strömmen = File.Open("Restore1.bin", FileMode.Open, FileAccess.Read);
+                if (!(strömmen.Length==0))
+                {
+                    CI = (Calcinfo)binForm.Deserialize(strömmen);
+                }
+                currentSum= CI.currentSum;
+                
+                inputIsNotDone= CI.inputIsNotDone;
+                isCalcSelected= CI.isCalcSelected;
+                Doubleloader= CI.Doubleloader;
+                firstInput= CI.firstInput;
+                selectedcalcmethod= CI.selectedcalcmethod;
+                oldCalcMethod = CI.oldCalcMethod;
+                textBoxCalculations.Text = CI.Calculations;
+                textBoxOutput.Text = CI.Output;
+                strömmen.Close(); 
+            }
         }
         public void SaveHistory()
         {
