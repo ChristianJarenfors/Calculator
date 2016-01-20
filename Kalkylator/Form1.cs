@@ -8,19 +8,26 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Reflection;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace wincalcmini
 {
     public partial class Form1 : Form
     {
         MethodInfo[] Methods;
+        Calcinfo CI= new Calcinfo()
         double currentSum = 0;
-        bool inputIsNotDone = true, isCalcSelected = false,Doubleloader = false;
+        bool inputIsNotDone = true, isCalcSelected = false,Doubleloader = false,firstInput=true;
+        
+        int selectedcalcmethod,oldCalcMethod;
         List<string> CalcMethod;
-        int selectedcalcmethod;
+        Stream strömmen;
+        BinaryFormatter binForm;
         public Form1()
         {
             InitializeComponent();
+            binForm = new BinaryFormatter();
             var DLL = Assembly.LoadFrom("WinCalc.dll");
             var TH = DLL.GetType("WinCalc.Räknare");
             //var c = Activator.CreateInstance(TH);
@@ -31,110 +38,196 @@ namespace wincalcmini
             CalcMethod.Add("*");
             CalcMethod.Add("/");
             textBoxCalculations.Text = null;
+            LoadHistory();
         }
         bool decimalBoolNotUsed = true;
-        
-        
-        
+
+
+        #region Numberbuttons + Decimal
 
         private void buttonNumber1_Click(object sender, EventArgs e)
         {
-            if (inputIsNotDone)
+            if (!Doubleloader)
             {
+                if (inputIsNotDone)
+                {
+                    textBoxOutput.Text = "1";
+                    inputIsNotDone = false;
+                }
+                else { textBoxOutput.Text += "1"; }
+            }
+            else
+            {
+                buttonC_Click(null, null);
                 textBoxOutput.Text = "1";
                 inputIsNotDone = false;
             }
-            else { textBoxOutput.Text += "1"; }
         }
 
         private void buttonNumber2_Click(object sender, EventArgs e)
         {
-            if (inputIsNotDone)
+            if (!Doubleloader)
             {
+                if (inputIsNotDone)
+                {
+                    textBoxOutput.Text = "2";
+                    inputIsNotDone = false;
+                }
+                else { textBoxOutput.Text += "2"; }
+            }
+            else
+            {
+                buttonC_Click(null, null);
                 textBoxOutput.Text = "2";
                 inputIsNotDone = false;
             }
-            else { textBoxOutput.Text += "2"; }
         }
-
         private void buttonNumber3_Click(object sender, EventArgs e)
         {
-            if (inputIsNotDone)
+            if (!Doubleloader)
             {
+                if (inputIsNotDone)
+                {
+                    textBoxOutput.Text = "3";
+                    inputIsNotDone = false;
+                }
+                else { textBoxOutput.Text += "3"; }
+            }
+            else
+            {
+                buttonC_Click(null, null);
                 textBoxOutput.Text = "3";
                 inputIsNotDone = false;
             }
-            else { textBoxOutput.Text += "3"; }
         }
-
         private void buttonNumber4_Click(object sender, EventArgs e)
         {
-            if (inputIsNotDone)
+            if (!Doubleloader)
             {
+                if (inputIsNotDone)
+                {
+                    textBoxOutput.Text = "4";
+                    inputIsNotDone = false;
+                }
+                else { textBoxOutput.Text += "4"; }
+            }
+            else
+            {
+                buttonC_Click(null, null);
                 textBoxOutput.Text = "4";
                 inputIsNotDone = false;
             }
-            else { textBoxOutput.Text += "4"; }
         }
-
         private void buttonNumber5_Click(object sender, EventArgs e)
         {
-            if (inputIsNotDone)
+            if (!Doubleloader)
             {
+                if (inputIsNotDone)
+                {
+                    textBoxOutput.Text = "5";
+                    inputIsNotDone = false;
+                }
+                else { textBoxOutput.Text += "5"; }
+            }
+            else
+            {
+                buttonC_Click(null, null);
                 textBoxOutput.Text = "5";
                 inputIsNotDone = false;
             }
-            else { textBoxOutput.Text += "5"; }
         }
         private void buttonNumber6_Click(object sender, EventArgs e)
         {
-            if (inputIsNotDone)
+            if (!Doubleloader)
             {
+                if (inputIsNotDone)
+                {
+                    textBoxOutput.Text = "6";
+                    inputIsNotDone = false;
+                }
+                else { textBoxOutput.Text += "6"; }
+            }
+            else
+            {
+                buttonC_Click(null, null);
                 textBoxOutput.Text = "6";
                 inputIsNotDone = false;
             }
-            else { textBoxOutput.Text += "6"; }
         }
 
         private void buttonNumber7_Click(object sender, EventArgs e)
         {
-            if (inputIsNotDone)
+            if (!Doubleloader)
             {
+                if (inputIsNotDone)
+                {
+                    textBoxOutput.Text = "7";
+                    inputIsNotDone = false;
+                }
+                else { textBoxOutput.Text += "7"; }
+            }
+            else
+            {
+                buttonC_Click(null, null);
                 textBoxOutput.Text = "7";
                 inputIsNotDone = false;
             }
-            else { textBoxOutput.Text += "7"; }
         }
         private void buttonNumber8_Click(object sender, EventArgs e)
         {
-            if (inputIsNotDone)
+            if (!Doubleloader)
             {
+                if (inputIsNotDone)
+                {
+                    textBoxOutput.Text = "8";
+                    inputIsNotDone = false;
+                }
+                else { textBoxOutput.Text += "8"; }
+            }
+            else
+            {
+                buttonC_Click(null, null);
                 textBoxOutput.Text = "8";
                 inputIsNotDone = false;
             }
-            else { textBoxOutput.Text += "8"; }
         }
-
         private void buttonNumber9_Click(object sender, EventArgs e)
         {
-            if (inputIsNotDone)
+            if (!Doubleloader)
             {
+                if (inputIsNotDone)
+                {
+                    textBoxOutput.Text = "9";
+                    inputIsNotDone = false;
+                }
+                else { textBoxOutput.Text += "9"; }
+            }
+            else
+            {
+                buttonC_Click(null, null);
                 textBoxOutput.Text = "9";
                 inputIsNotDone = false;
             }
-            else { textBoxOutput.Text += "9"; }
         }
 
         private void buttonNumber0_Click(object sender, EventArgs e)
         {
-            if (inputIsNotDone)
+            if (!Doubleloader)
             {
+                if (inputIsNotDone)
+                {
+                    textBoxOutput.Text = "0";
+                    inputIsNotDone = false;
+                }
+                else { textBoxOutput.Text += "0"; }
+            }
+            else
+            {
+                buttonC_Click(null, null);
                 textBoxOutput.Text = "0";
                 inputIsNotDone = false;
             }
-            else { textBoxOutput.Text += "0"; }
         }
-
         private void buttonDecimal_Click(object sender, EventArgs e)
         {
             if (decimalBoolNotUsed)
@@ -143,93 +236,86 @@ namespace wincalcmini
                 decimalBoolNotUsed = false;
             }
         }
+        #endregion
+
+        #region Operations
 
         private void buttonPlus_Click(object sender, EventArgs e)
         {
-            //if (!isCalcSelected)
-            //{
-            //    selectedcalcmethod = 2;
-            //    if (Doubleloader)
-            //    {
-            //        textBoxCalculations.Text += CalcMethod[(selectedcalcmethod - 2)];
-            //        Doubleloader = false;
-            //    }
-            //}
-            //textBoxCalculations.Text += textBoxOutput.Text + CalcMethod[(selectedcalcmethod - 2)];
+
             selectedcalcmethod = 2;
-            CalcTextboxUpdate(2);
-            calculate(selectedcalcmethod);
-            
-            
-            
+            CalcTextboxUpdate(selectedcalcmethod);
+            if (firstInput)
+            {
+                currentSum = double.Parse(textBoxOutput.Text);
+                firstInput = false;
+            }
+            else
+            {
+                calculate(oldCalcMethod);
+            }
+            oldCalcMethod = selectedcalcmethod;
             inputIsNotDone = true;
         }
 
         private void buttonMinus_Click(object sender, EventArgs e)
         {
-            //if (!isCalcSelected)
-            //{
-            //    selectedcalcmethod = 3;
-            //    if (Doubleloader)
-            //    {
-            //        textBoxCalculations.Text += CalcMethod[(selectedcalcmethod - 2)];
-            //        Doubleloader = false;
-            //    }
-            //}
-            //textBoxCalculations.Text += textBoxOutput.Text + CalcMethod[(selectedcalcmethod - 2)];
+
             selectedcalcmethod = 3;
-            CalcTextboxUpdate(3);
-            calculate(selectedcalcmethod);
-            
-            
-            
+            CalcTextboxUpdate(selectedcalcmethod);
+            if (firstInput)
+            {
+                currentSum = double.Parse(textBoxOutput.Text);
+                firstInput = false;
+            }
+            else
+            {
+                calculate(oldCalcMethod);
+            }
+            oldCalcMethod = selectedcalcmethod;
             inputIsNotDone = true;
         }
 
         private void buttonMultiply_Click(object sender, EventArgs e)
         {
-            //if (!isCalcSelected)
-            //{
-            //    selectedcalcmethod = 4;
-            //    if (Doubleloader)
-            //    {
-            //        textBoxCalculations.Text += CalcMethod[(selectedcalcmethod - 2)];
-            //        Doubleloader = false;
-            //    }
-            //}
-            //textBoxCalculations.Text += textBoxOutput.Text + CalcMethod[(selectedcalcmethod - 2)];
+
             selectedcalcmethod = 4;
-            CalcTextboxUpdate(4);
-            calculate(selectedcalcmethod);
-            
-            
-            
+            CalcTextboxUpdate(selectedcalcmethod);
+            if (firstInput)
+            {
+                currentSum = double.Parse(textBoxOutput.Text);
+                firstInput = false;
+            }
+            else
+            {
+                calculate(oldCalcMethod);
+            }
+            oldCalcMethod = selectedcalcmethod;
             inputIsNotDone = true;
         }
 
         private void buttonDivision_Click(object sender, EventArgs e)
         {
-            //if (!isCalcSelected)
-            //{
-            //    selectedcalcmethod = 5;
-            //    if (Doubleloader)
-            //    {
-            //        textBoxCalculations.Text += CalcMethod[(selectedcalcmethod - 2)];
-            //        Doubleloader = false;
-            //    }
-            //}
             selectedcalcmethod = 5;
-            CalcTextboxUpdate(5);
-            calculate(selectedcalcmethod);
-            
-            
+            CalcTextboxUpdate(selectedcalcmethod);
+            if (firstInput)
+            {
+                currentSum = double.Parse(textBoxOutput.Text);
+                firstInput = false;
+            }
+            else
+            {
+                calculate(oldCalcMethod);
+            }
+            oldCalcMethod = selectedcalcmethod;
             inputIsNotDone = true;
         }
+        #endregion
+
         public void calculate(int operation)
         {
             if (!inputIsNotDone)
             {
-                //textBoxCalculations.Text += textBoxOutput.Text + CalcMethod[(selectedcalcmethod - 2)];
                 if (isCalcSelected)
                 {
                     
@@ -244,11 +330,12 @@ namespace wincalcmini
                 
                 
             }
-            //else
-            //{
-            //    textBoxCalculations.Text= textBoxCalculations.Text.Remove(textBoxCalculations.Text.Length-1);
-            //    textBoxCalculations.Text += CalcMethod[(operation - 2)];
-            //}
+            else
+            {
+                currentSum = double.Parse(textBoxOutput.Text);
+                //textBoxCalculations.Text = textBoxCalculations.Text.Remove(textBoxCalculations.Text.Length - 1);
+                //textBoxCalculations.Text += CalcMethod[(operation - 2)];
+            }
         }
         public void calculationStringUpdate(bool calcMethod,int operation)
         {
@@ -272,6 +359,8 @@ namespace wincalcmini
             currentSum = 0;
             isCalcSelected = false;
             inputIsNotDone = true;
+            firstInput = true;
+            Doubleloader = false;
         }
 
         private void buttonCE_Click(object sender, EventArgs e)
@@ -313,6 +402,11 @@ namespace wincalcmini
             textBoxOutput.Text = Methods[8].Invoke(null, new object[] { double.Parse(textBoxOutput.Text) }).ToString();
         }
 
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            SaveHistory();
+        }
+
         private void listBoxHistory_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             buttonC_Click(null,null);
@@ -350,5 +444,40 @@ namespace wincalcmini
                 }
             }
         }
+        public void SaveCurrentCalc()
+        {
+            strömmen = File.Open("Restore1.bin", FileMode.Create, FileAccess.Write);
+
+        }
+        public void SaveHistory()
+        {
+            strömmen = File.Open("Restore2.bin", FileMode.Create, FileAccess.Write);
+            List<HistoryRecord> list = new List<HistoryRecord>();
+            foreach (HistoryRecord item in listBoxHistory.Items)
+            {
+                list.Add(item);
+            }
+            binForm.Serialize(strömmen, list);
+            strömmen.Close();
+        }
+        public void LoadHistory()
+        {
+            if (File.Exists("Restore2.bin"))
+            {
+                strömmen = File.Open("Restore2.bin", FileMode.Open, FileAccess.Read);
+                List<HistoryRecord> list = new List<HistoryRecord>();
+                if (!(strömmen.Length==0))
+                {
+                    list = (List<HistoryRecord>)binForm.Deserialize(strömmen);
+                    foreach (HistoryRecord item in list)
+                    {
+                        listBoxHistory.Items.Add(item);
+                    }
+                }
+                
+                strömmen.Close();
+            }
+        }
+
     }
 }
