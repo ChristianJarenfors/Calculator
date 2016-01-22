@@ -55,6 +55,8 @@
             this.buttonBackDelete = new System.Windows.Forms.Button();
             this.buttonPosNeg = new System.Windows.Forms.Button();
             this.buttonSquare = new System.Windows.Forms.Button();
+            this.buttonExport = new System.Windows.Forms.Button();
+            this.buttonDeleteHistory = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // buttonNumber1
@@ -303,7 +305,7 @@
             this.listBoxHistory.ItemHeight = 16;
             this.listBoxHistory.Location = new System.Drawing.Point(295, 57);
             this.listBoxHistory.Name = "listBoxHistory";
-            this.listBoxHistory.Size = new System.Drawing.Size(258, 420);
+            this.listBoxHistory.Size = new System.Drawing.Size(398, 420);
             this.listBoxHistory.TabIndex = 20;
             this.listBoxHistory.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listBoxHistory_MouseDoubleClick);
             // 
@@ -313,6 +315,7 @@
             this.textBoxOutput.Location = new System.Drawing.Point(15, 152);
             this.textBoxOutput.Multiline = true;
             this.textBoxOutput.Name = "textBoxOutput";
+            this.textBoxOutput.ReadOnly = true;
             this.textBoxOutput.Size = new System.Drawing.Size(274, 45);
             this.textBoxOutput.TabIndex = 21;
             this.textBoxOutput.Text = "0";
@@ -323,6 +326,7 @@
             this.textBoxCalculations.Location = new System.Drawing.Point(15, 54);
             this.textBoxCalculations.Multiline = true;
             this.textBoxCalculations.Name = "textBoxCalculations";
+            this.textBoxCalculations.ReadOnly = true;
             this.textBoxCalculations.Size = new System.Drawing.Size(274, 92);
             this.textBoxCalculations.TabIndex = 22;
             // 
@@ -353,7 +357,7 @@
             // buttonPosNeg
             // 
             this.buttonPosNeg.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.buttonPosNeg.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonPosNeg.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonPosNeg.Location = new System.Drawing.Point(71, 427);
             this.buttonPosNeg.Name = "buttonPosNeg";
             this.buttonPosNeg.Size = new System.Drawing.Size(50, 50);
@@ -373,11 +377,35 @@
             this.buttonSquare.UseVisualStyleBackColor = true;
             this.buttonSquare.Click += new System.EventHandler(this.buttonSquare_Click);
             // 
+            // buttonExport
+            // 
+            this.buttonExport.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonExport.Location = new System.Drawing.Point(699, 368);
+            this.buttonExport.Name = "buttonExport";
+            this.buttonExport.Size = new System.Drawing.Size(142, 49);
+            this.buttonExport.TabIndex = 27;
+            this.buttonExport.Text = "Export";
+            this.buttonExport.UseVisualStyleBackColor = true;
+            this.buttonExport.Click += new System.EventHandler(this.buttonExport_Click);
+            // 
+            // buttonDeleteHistory
+            // 
+            this.buttonDeleteHistory.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonDeleteHistory.Location = new System.Drawing.Point(699, 423);
+            this.buttonDeleteHistory.Name = "buttonDeleteHistory";
+            this.buttonDeleteHistory.Size = new System.Drawing.Size(142, 52);
+            this.buttonDeleteHistory.TabIndex = 28;
+            this.buttonDeleteHistory.Text = "Delete";
+            this.buttonDeleteHistory.UseVisualStyleBackColor = true;
+            this.buttonDeleteHistory.Click += new System.EventHandler(this.buttonDeleteHistory_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(983, 520);
+            this.ClientSize = new System.Drawing.Size(983, 546);
+            this.Controls.Add(this.buttonDeleteHistory);
+            this.Controls.Add(this.buttonExport);
             this.Controls.Add(this.buttonSquare);
             this.Controls.Add(this.buttonPosNeg);
             this.Controls.Add(this.buttonBackDelete);
@@ -442,6 +470,8 @@
         private System.Windows.Forms.Button buttonBackDelete;
         private System.Windows.Forms.Button buttonPosNeg;
         private System.Windows.Forms.Button buttonSquare;
+        private System.Windows.Forms.Button buttonExport;
+        private System.Windows.Forms.Button buttonDeleteHistory;
     }
 }
 

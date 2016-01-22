@@ -11,12 +11,13 @@ namespace wincalcmini
     class Calcinfo
     {
         public double currentSum = 0;
-        public bool inputIsNotDone = true, isCalcSelected = false, Doubleloader = false, firstInput = true;
+        public bool decimalBoolNotUsed=true, inputIsNotDone = true, isCalcSelected = false, Doubleloader = false, firstInput = true;
         public int selectedcalcmethod, oldCalcMethod;
         public string Calculations,Output;
-        public Calcinfo(double CurrentSum,bool InputIsNotDone, bool IsCalcSelected, bool doubleloader, bool FirstInput,int SelectedCalcMethod, int OldCalcMethod,string calculations,string output)
+        public Calcinfo(double CurrentSum,bool DecimalBoolNotUsed, bool InputIsNotDone, bool IsCalcSelected, bool doubleloader, bool FirstInput,int SelectedCalcMethod, int OldCalcMethod,string calculations,string output)
         {
             currentSum = CurrentSum;
+            decimalBoolNotUsed = DecimalBoolNotUsed;
             inputIsNotDone = InputIsNotDone;
             isCalcSelected = IsCalcSelected;
             Doubleloader = doubleloader;
