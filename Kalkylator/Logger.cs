@@ -9,7 +9,21 @@ namespace wincalcmini
 {
     class Logger
     {
-        
+        Kalkylator Calc;
+        public Logger(Kalkylator calc)
+        {
+            Calc = calc;
+            calc.Negative += NegativeResult;
+            calc.ClearButton += ClearPressing;
+        }
+        public void NegativeResult()
+        {
+
+        }
+        public void ClearPressing()
+        {
+
+        }
 
     }
 }

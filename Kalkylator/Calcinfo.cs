@@ -31,5 +31,19 @@ namespace wincalcmini
         {
 
         }
+        public void UpdateOutputInfo(string calc,string output)
+        {
+            Calculations = calc;
+            Output = output;
+        }
+        public void Creset()
+        {
+            currentSum = 0;
+            decimalBoolNotUsed = true;
+            isCalcSelected = false;
+            inputIsNotDone = true;
+            firstInput = true;
+            Doubleloader = false;
+        }
     }
 }

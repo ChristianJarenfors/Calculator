@@ -23,7 +23,7 @@ namespace wincalcmini
         //double CIcurrentSum = 0;
         //bool CIinputIsNotDone = true, CIisCalcSelected = false,CIDoubleloader = false,CIfirstInput=true;     
         //int CIselectedcalcmethod,CIoldCalcMethod;
-        Calcinfo CI = new Calcinfo(0,true,true,false,false,true,0,0,null,null);
+        Calcinfo CI = new Calcinfo(12.2,true,true,false,false,true,0,0,null,null);
         List<string> CalcMethod;
         Stream strömmen;
         BinaryFormatter binForm;
@@ -53,21 +53,7 @@ namespace wincalcmini
         private void buttonNumber1_Click(object sender, EventArgs e)
         {
             insertNumber("1");
-            //if (!CI.Doubleloader)
-            //{
-            //    if (CI.inputIsNotDone)
-            //    {
-            //        textBoxOutput.Text = "1";
-            //        CI.inputIsNotDone = false;
-            //    }
-            //    else { textBoxOutput.Text += "1"; }
-            //}
-            //else
-            //{
-            //    buttonC_Click(null, null);
-            //    textBoxOutput.Text = "1";
-            //    CI.inputIsNotDone = false;
-            //}
+            
         }
 
         private void buttonNumber2_Click(object sender, EventArgs e)
@@ -77,163 +63,83 @@ namespace wincalcmini
         private void buttonNumber3_Click(object sender, EventArgs e)
         {
             insertNumber("3");
-            //if (!CI.Doubleloader)
-            //{
-            //    if (CI.inputIsNotDone)
-            //    {
-            //        textBoxOutput.Text = "3";
-            //        CI.inputIsNotDone = false;
-            //    }
-            //    else { textBoxOutput.Text += "3"; }
-            //}
-            //else
-            //{
-            //    buttonC_Click(null, null);
-            //    textBoxOutput.Text = "3";
-            //    CI.inputIsNotDone = false;
-            //}
+            
         }
         private void buttonNumber4_Click(object sender, EventArgs e)
         {
             insertNumber("4");
-            //if (!CI.Doubleloader)
-            //{
-            //    if (CI.inputIsNotDone)
-            //    {
-            //        textBoxOutput.Text = "4";
-            //        CI.inputIsNotDone = false;
-            //    }
-            //    else { textBoxOutput.Text += "4"; }
-            //}
-            //else
-            //{
-            //    buttonC_Click(null, null);
-            //    textBoxOutput.Text = "4";
-            //    CI.inputIsNotDone = false;
-            //}
+            
         }
         private void buttonNumber5_Click(object sender, EventArgs e)
         {
             insertNumber("5");
-            //if (!CI.Doubleloader)
-            //{
-            //    if (CI.inputIsNotDone)
-            //    {
-            //        textBoxOutput.Text = "5";
-            //        CI.inputIsNotDone = false;
-            //    }
-            //    else { textBoxOutput.Text += "5"; }
-            //}
-            //else
-            //{
-            //    buttonC_Click(null, null);
-            //    textBoxOutput.Text = "5";
-            //    CI.inputIsNotDone = false;
-            //}
+            
         }
         private void buttonNumber6_Click(object sender, EventArgs e)
         {
             insertNumber("6");
-            //if (!CI.Doubleloader)
-            //{
-            //    if (CI.inputIsNotDone)
-            //    {
-            //        textBoxOutput.Text = "6";
-            //        CI.inputIsNotDone = false;
-            //    }
-            //    else { textBoxOutput.Text += "6"; }
-            //}
-            //else
-            //{
-            //    buttonC_Click(null, null);
-            //    textBoxOutput.Text = "6";
-            //    CI.inputIsNotDone = false;
-            //}
+            
         }
 
         private void buttonNumber7_Click(object sender, EventArgs e)
         {
             insertNumber("7");
-            //if (!CI.Doubleloader)
-            //{
-            //    if (CI.inputIsNotDone)
-            //    {
-            //        textBoxOutput.Text = "7";
-            //        CI.inputIsNotDone = false;
-            //    }
-            //    else { textBoxOutput.Text += "7"; }
-            //}
-            //else
-            //{
-            //    buttonC_Click(null, null);
-            //    textBoxOutput.Text = "7";
-            //    CI.inputIsNotDone = false;
-            //}
+            
         }
         private void buttonNumber8_Click(object sender, EventArgs e)
         {
             insertNumber("8");
-            //if (!CI.Doubleloader)
-            //{
-            //    if (CI.inputIsNotDone)
-            //    {
-            //        textBoxOutput.Text = "8";
-            //        CI.inputIsNotDone = false;
-            //    }
-            //    else { textBoxOutput.Text += "8"; }
-            //}
-            //else
-            //{
-            //    buttonC_Click(null, null);
-            //    textBoxOutput.Text = "8";
-            //    CI.inputIsNotDone = false;
-            //}
+            
         }
         private void buttonNumber9_Click(object sender, EventArgs e)
         {
             insertNumber("9");
-            //if (!CI.Doubleloader)
-            //{
-            //    if (CI.inputIsNotDone)
-            //    {
-            //        textBoxOutput.Text = "9";
-            //        CI.inputIsNotDone = false;
-            //    }
-            //    else { textBoxOutput.Text += "9"; }
-            //}
-            //else
-            //{
-            //    buttonC_Click(null, null);
-            //    textBoxOutput.Text = "9";
-            //    CI.inputIsNotDone = false;
-            //}
+            
         }
 
         private void buttonNumber0_Click(object sender, EventArgs e)
         {
             insertNumber("0");
-            //if (!CI.Doubleloader)
-            //{
-            //    if (CI.inputIsNotDone)
-            //    {
-            //        textBoxOutput.Text = "0";
-            //        CI.inputIsNotDone = false;
-            //    }
-            //    else { textBoxOutput.Text += "0"; }
-            //}
-            //else
-            //{
-            //    buttonC_Click(null, null);
-            //    textBoxOutput.Text = "0";
-            //    CI.inputIsNotDone = false;
-            //}
+            
         }
         private void buttonDecimal_Click(object sender, EventArgs e)
         {
-            if (CI.decimalBoolNotUsed)
+            if (!CI.Doubleloader)
             {
-                textBoxOutput.Text += ".";
-                CI.decimalBoolNotUsed = false;
+                if (CI.inputIsNotDone)
+                {
+                    textBoxOutput.Text = "0.";
+                    CI.inputIsNotDone = false;
+                }
+                else if (CI.decimalBoolNotUsed)
+                {
+                    textBoxOutput.Text += ".";
+                    CI.decimalBoolNotUsed = false;
+                }
+
+            }
+            else {
+                buttonC_Click(null, null);
+                textBoxOutput.Text = "0.";
+                CI.inputIsNotDone = false;
+            }
+        }
+        private void insertNumber(string s)
+        {
+            if (!CI.Doubleloader)
+            {
+                if (CI.inputIsNotDone)
+                {
+                    textBoxOutput.Text = s;
+                    CI.inputIsNotDone = false;
+                }
+                else { textBoxOutput.Text += s; }
+            }
+            else
+            {
+                buttonC_Click(null, null);
+                textBoxOutput.Text = s;
+                CI.inputIsNotDone = false;
             }
         }
         #endregion
@@ -242,65 +148,28 @@ namespace wincalcmini
 
         private void buttonPlus_Click(object sender, EventArgs e)
         {
-
-            CI.selectedcalcmethod = 2;
-            CalcTextboxUpdate(CI.selectedcalcmethod);
-            if (CI.firstInput)
-            {
-                CI.currentSum = double.Parse(textBoxOutput.Text);
-                CI.firstInput = false;
-            }
-            else
-            {
-                calculate(CI.oldCalcMethod);
-            }
-            CI.oldCalcMethod = CI.selectedcalcmethod;
-            CI.inputIsNotDone = true;
+            UpdateMathOutput(2);
         }
-
         private void buttonMinus_Click(object sender, EventArgs e)
         {
+            UpdateMathOutput(3);
 
-            CI.selectedcalcmethod = 3;
-            CalcTextboxUpdate(CI.selectedcalcmethod);
-            if (CI.firstInput)
-            {
-                CI.currentSum = double.Parse(textBoxOutput.Text);
-                CI.firstInput = false;
-            }
-            else
-            {
-                calculate(CI.oldCalcMethod);
-            }
-            CI.oldCalcMethod = CI.selectedcalcmethod;
-            CI.inputIsNotDone = true;
         }
-
         private void buttonMultiply_Click(object sender, EventArgs e)
         {
-
-            CI.selectedcalcmethod = 4;
-            CalcTextboxUpdate(CI.selectedcalcmethod);
-            if (CI.firstInput)
-            {
-                CI.currentSum = double.Parse(textBoxOutput.Text);
-                CI.firstInput = false;
-            }
-            else
-            {
-                calculate(CI.oldCalcMethod);
-            }
-            CI.oldCalcMethod = CI.selectedcalcmethod;
-            CI.inputIsNotDone = true;
+            UpdateMathOutput(4);
         }
-
         private void buttonDivision_Click(object sender, EventArgs e)
         {
-            CI.selectedcalcmethod = 5;
+            UpdateMathOutput(5);
+        }
+        private void UpdateMathOutput(int v)
+        {
+            CI.selectedcalcmethod = v;
             CalcTextboxUpdate(CI.selectedcalcmethod);
             if (CI.firstInput)
             {
-                CI.currentSum = double.Parse(textBoxOutput.Text);
+                CI.currentSum = double.Parse(textBoxOutput.Text, System.Globalization.NumberStyles.AllowDecimalPoint, System.Globalization.NumberFormatInfo.InvariantInfo);
                 CI.firstInput = false;
             }
             else
@@ -309,6 +178,7 @@ namespace wincalcmini
             }
             CI.oldCalcMethod = CI.selectedcalcmethod;
             CI.inputIsNotDone = true;
+            CI.decimalBoolNotUsed = true;
         }
         #endregion
 
@@ -319,7 +189,7 @@ namespace wincalcmini
                 if (CI.isCalcSelected)
                 {
                     
-                    CI.currentSum = (double)Methods[operation].Invoke(null, new object[] { CI.currentSum, double.Parse(textBoxOutput.Text) });
+                    CI.currentSum = (double)Methods[operation].Invoke(null, new object[] { CI.currentSum, double.Parse(textBoxOutput.Text, System.Globalization.NumberStyles.AllowDecimalPoint, System.Globalization.NumberFormatInfo.InvariantInfo) });
                     textBoxOutput.Text = CI.currentSum.ToString();
                 }
                 else
@@ -329,14 +199,35 @@ namespace wincalcmini
             }
             else
             {
-                CI.currentSum = double.Parse(textBoxOutput.Text);
-                //textBoxCalculations.Text = textBoxCalculations.Text.Remove(textBoxCalculations.Text.Length - 1);
-                //textBoxCalculations.Text += CalcMethod[(operation - 2)];
+                CI.currentSum = double.Parse(textBoxOutput.Text, System.Globalization.NumberStyles.AllowDecimalPoint, System.Globalization.NumberFormatInfo.InvariantInfo);
+            }
+        }
+        public void CalcTextboxUpdate(int i)
+        {
+            CI.selectedcalcmethod = i;
+            if (CI.Doubleloader)
+            {
+                textBoxCalculations.Text += CalcMethod[(CI.selectedcalcmethod - 2)];
+                CI.Doubleloader = false;
+                CI.isCalcSelected = true;
+            }
+            else
+            {
+                if (!CI.inputIsNotDone)
+                {
+                    textBoxCalculations.Text += textBoxOutput.Text + CalcMethod[(CI.selectedcalcmethod - 2)];
+                    CI.isCalcSelected = true;
+                }
+                else
+                {
+                    textBoxCalculations.Text = textBoxCalculations.Text.Remove(textBoxCalculations.Text.Length - 1);
+                    textBoxCalculations.Text += CalcMethod[(CI.selectedcalcmethod - 2)];
+                    CI.isCalcSelected = true;
+                }
             }
         }
         public void calculationStringUpdate(bool calcMethod,int operation)
-        {
-            //if()
+        { 
             textBoxCalculations.Text += textBoxOutput.Text + CalcMethod[(operation - 2)];
         }
 
@@ -346,13 +237,6 @@ namespace wincalcmini
             calculate(CI.selectedcalcmethod);
             textBoxCalculations.Text = textBoxCalculations.Text.Remove(textBoxCalculations.Text.Length - 1);
             listBoxHistory.Items.Add(new HistoryRecord(textBoxCalculations.Text, double.Parse(textBoxOutput.Text)));
-            if (double.Parse(textBoxOutput.Text)<0)
-            {
-                if (NegativeEvent!=null)
-                {
-                    NegativeEvent.Invoke();
-                }   
-            }
             buttonC_Click(null, null);
         }
 
@@ -360,16 +244,7 @@ namespace wincalcmini
         {
             textBoxOutput.Text = "0";
             textBoxCalculations.Text = null;
-            CI.currentSum = 0;
-            CI.decimalBoolNotUsed = true;
-            CI.isCalcSelected = false;
-            CI.inputIsNotDone = true;
-            CI.firstInput = true;
-            CI.Doubleloader = false;
-            if (BreakEvent != null)
-            {
-                BreakEvent.Invoke();
-            }
+            CI.Creset();
         }
 
         private void buttonCE_Click(object sender, EventArgs e)
@@ -419,41 +294,27 @@ namespace wincalcmini
 
         private void listBoxHistory_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            buttonC_Click(null,null);
-            textBoxCalculations.Text = ((HistoryRecord)listBoxHistory.SelectedItem).s;
-            textBoxOutput.Text = ((HistoryRecord)listBoxHistory.SelectedItem).sum.ToString();
-            CI.currentSum = ((HistoryRecord)listBoxHistory.SelectedItem).sum;
-            CI.Doubleloader = true;
-            //inputIsNotDone = true;
-            //Doubleloader = true;
-            //isCalcSelected = false;
-        }
-        public void CalcTextboxUpdate(int i)
-        {
-            //if (!isCalcSelected)
-            //{
-            CI.selectedcalcmethod = i;
-            if (CI.Doubleloader)
+            if (listBoxHistory.SelectedItem!=null)
             {
-                textBoxCalculations.Text += CalcMethod[(CI.selectedcalcmethod - 2)];
-                CI.Doubleloader = false;
-                CI.isCalcSelected = true;
-            }
-            else
-            {
-                if (!CI.inputIsNotDone)
+                buttonC_Click(null, null);
+                textBoxCalculations.Text = ((HistoryRecord)listBoxHistory.SelectedItem).s;
+                textBoxOutput.Text = null;
+                foreach (char c in ((HistoryRecord)listBoxHistory.SelectedItem).sum.ToString())
                 {
-                    textBoxCalculations.Text += textBoxOutput.Text + CalcMethod[(CI.selectedcalcmethod - 2)];
-                    CI.isCalcSelected = true;
-                }
-                else
-                {
-                    textBoxCalculations.Text = textBoxCalculations.Text.Remove(textBoxCalculations.Text.Length - 1);
-                    textBoxCalculations.Text += CalcMethod[(CI.selectedcalcmethod - 2)];
-                    CI.isCalcSelected = true;
-                }
+                    if (c == ',')
+                    {
+                        textBoxOutput.Text += '.';
+                    }
+                    else
+                    {
+                        textBoxOutput.Text += c.ToString();
+                    }
+                } 
+                CI.currentSum = ((HistoryRecord)listBoxHistory.SelectedItem).sum;
+                CI.Doubleloader = true;
             }
         }
+        
 
         private void buttonDeleteHistory_Click(object sender, EventArgs e)
         {
@@ -501,7 +362,7 @@ namespace wincalcmini
         public void SaveCurrentCalc()
         {
             strömmen = File.Open("Restore1.bin", FileMode.Create, FileAccess.Write);
-            //Calcinfo CI = new Calcinfo(CIcurrentSum, CIinputIsNotDone, CIisCalcSelected, CIDoubleloader, CIfirstInput, CIselectedcalcmethod, CIoldCalcMethod,textBoxCalculations.Text,textBoxOutput.Text);
+            CI.UpdateOutputInfo(textBoxCalculations.Text,textBoxOutput.Text);
             binForm.Serialize(strömmen, CI);
             strömmen.Close();
 
@@ -558,24 +419,7 @@ namespace wincalcmini
                 strömmen.Close();
             }
         }
-        private void insertNumber(string s)
-        {
-            if (!CI.Doubleloader)
-            {
-                if (CI.inputIsNotDone)
-                {
-                    textBoxOutput.Text = s;
-                    CI.inputIsNotDone = false;
-                }
-                else { textBoxOutput.Text += s; }
-            }
-            else
-            {
-                buttonC_Click(null, null);
-                textBoxOutput.Text = s;
-                CI.inputIsNotDone = false;
-            }
-        }
+        
 
     }
 }
