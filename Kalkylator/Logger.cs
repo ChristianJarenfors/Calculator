@@ -18,7 +18,7 @@ namespace wincalcmini
         }
         public void NegativeResult()
         {
-
+            MessageBox.Show("NEgative!!");
         }
         public void ClearPressing()
         {

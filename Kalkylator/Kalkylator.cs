@@ -17,7 +17,7 @@ namespace wincalcmini
         public Kalkylator(Calcinfo CCI)
         {
             CI = CCI;
-            var DLL = Assembly.LoadFile("WinCalc.dll");
+            var DLL = Assembly.LoadFrom("WinCalc.dll");
             var TH = DLL.GetType("WinCalc.Räknare");
             Methods = TH.GetMethods();
         }/// <summary>
@@ -25,29 +25,29 @@ namespace wincalcmini
         /// </summary>
         /// <param name="switchis"></param>
         /// <returns></returns>
-        public double Calculations(int switchis,double inputdata)
+        public void Calculations(int switchis,double inputdata)
         {
             double returner = 0;
             switch (switchis)
             { 
-                case 1:
+                case 2:
                     {
-                    returner= double.Parse(Methods[(switchis + 1)].Invoke(null, new object[] { CI.currentSum, inputdata }).ToString(), System.Globalization.NumberStyles.AllowDecimalPoint, System.Globalization.NumberFormatInfo.InvariantInfo);
-                        break;
-                    }
-            case 2:
-                {
-                    returner = double.Parse(Methods[(switchis + 1)].Invoke(null, new object[] { CI.currentSum, inputdata }).ToString(), System.Globalization.NumberStyles.AllowDecimalPoint, System.Globalization.NumberFormatInfo.InvariantInfo);
+                    returner= double.Parse(Methods[(switchis )].Invoke(null, new object[] { CI.currentSum, inputdata }).ToString());
                         break;
                     }
             case 3:
                 {
-                    returner = double.Parse(Methods[(switchis + 1)].Invoke(null, new object[] { CI.currentSum, inputdata }).ToString(), System.Globalization.NumberStyles.AllowDecimalPoint, System.Globalization.NumberFormatInfo.InvariantInfo);
+                    returner = double.Parse(Methods[(switchis)].Invoke(null, new object[] { CI.currentSum, inputdata }).ToString());
                         break;
                     }
             case 4:
                 {
-                    returner = double.Parse(Methods[(switchis + 1)].Invoke(null, new object[] { CI.currentSum, inputdata }).ToString(), System.Globalization.NumberStyles.AllowDecimalPoint, System.Globalization.NumberFormatInfo.InvariantInfo);
+                    returner = double.Parse(Methods[(switchis )].Invoke(null, new object[] { CI.currentSum, inputdata }).ToString());
+                        break;
+                    }
+            case 5:
+                {
+                    returner = double.Parse(Methods[(switchis )].Invoke(null, new object[] { CI.currentSum, inputdata }).ToString());
                         break;
                     }
                 default:
@@ -59,7 +59,7 @@ namespace wincalcmini
             {
                 Negative();
             }
-            return returner;
+            CI.currentSum = returner;
         }
         public double PI()
         {

@@ -16,10 +16,11 @@ namespace wincalcmini
     delegate void Loggcaller();
     public partial class Form1 : Form
     {
+        Kalkylator Calkisen;
         event Loggcaller BreakEvent;
         event Loggcaller NegativeEvent;
         MethodInfo[] Methods;
-        
+        Logger Loggarn;
         //double CIcurrentSum = 0;
         //bool CIinputIsNotDone = true, CIisCalcSelected = false,CIDoubleloader = false,CIfirstInput=true;     
         //int CIselectedcalcmethod,CIoldCalcMethod;
@@ -30,8 +31,10 @@ namespace wincalcmini
         public Form1()
         {
             InitializeComponent();
-
+            
+            
             binForm = new BinaryFormatter();
+
             var DLL = Assembly.LoadFrom("WinCalc.dll");
             var TH = DLL.GetType("WinCalc.Räknare");
             //var c = Activator.CreateInstance(TH);
@@ -44,6 +47,9 @@ namespace wincalcmini
             textBoxCalculations.Text = null;
             LoadHistory();
             LoadCurrentCalc();
+            Calkisen = new Kalkylator(CI);
+            Loggarn = new Logger(Calkisen);
+
         }
         //bool CIdecimalBoolNotUsed = true;
 
@@ -188,13 +194,13 @@ namespace wincalcmini
             {
                 if (CI.isCalcSelected)
                 {
-                    
-                    CI.currentSum = (double)Methods[operation].Invoke(null, new object[] { CI.currentSum, double.Parse(textBoxOutput.Text, System.Globalization.NumberStyles.AllowDecimalPoint, System.Globalization.NumberFormatInfo.InvariantInfo) });
+                    Calkisen.Calculations((operation),double.Parse(textBoxOutput.Text, System.Globalization.NumberStyles.AllowDecimalPoint, System.Globalization.NumberFormatInfo.InvariantInfo));
+                    //CI.currentSum = (double)Methods[operation].Invoke(null, new object[] { CI.currentSum, double.Parse(textBoxOutput.Text, System.Globalization.NumberStyles.AllowDecimalPoint, System.Globalization.NumberFormatInfo.InvariantInfo) });
                     textBoxOutput.Text = CI.currentSum.ToString();
                 }
                 else
                 {
-                    CI.currentSum = double.Parse(textBoxOutput.Text);
+                    CI.currentSum = double.Parse(textBoxOutput.Text, System.Globalization.NumberStyles.AllowDecimalPoint, System.Globalization.NumberFormatInfo.InvariantInfo);
                 }   
             }
             else
@@ -205,7 +211,11 @@ namespace wincalcmini
         public void CalcTextboxUpdate(int i)
         {
             CI.selectedcalcmethod = i;
-            if (CI.Doubleloader)
+            if (textBoxCalculations.Text == null || textBoxCalculations.Text == "")
+            {
+                textBoxCalculations.Text += textBoxOutput.Text + CalcMethod[(CI.selectedcalcmethod - 2)];
+                CI.isCalcSelected = true;
+            }else if (CI.Doubleloader)
             {
                 textBoxCalculations.Text += CalcMethod[(CI.selectedcalcmethod - 2)];
                 CI.Doubleloader = false;
@@ -255,25 +265,31 @@ namespace wincalcmini
 
         private void buttonPi_Click(object sender, EventArgs e)
         {
-            textBoxOutput.Text = Methods[0].Invoke(null, new object[] { }).ToString();
+            textBoxOutput.Text = Calkisen.PI().ToString();
             CI.inputIsNotDone = false;
 
         }
 
         private void buttonEuler_Click(object sender, EventArgs e)
         {
-            textBoxOutput.Text = Methods[1].Invoke(null, new object[] { }).ToString();
+            textBoxOutput.Text = Calkisen.Euler().ToString();
             CI.inputIsNotDone = false;
         }
 
         private void buttonSqrt_Click(object sender, EventArgs e)
         {
-            textBoxOutput.Text = Methods[6].Invoke(null, new object[] { double.Parse(textBoxOutput.Text) }).ToString();
+            removeDecimal();
+            textBoxOutput.Text = Calkisen.SquareRot(double.Parse(textBoxOutput.Text, System.Globalization.NumberStyles.AllowDecimalPoint, System.Globalization.NumberFormatInfo.InvariantInfo)).ToString();
+            //textBoxOutput.Text = Methods[6].Invoke(null, new object[] { double.Parse(textBoxOutput.Text, System.Globalization.NumberStyles.AllowDecimalPoint, System.Globalization.NumberFormatInfo.InvariantInfo) }).ToString();
+            removeDecimal();
         }
 
         private void buttonSquare_Click(object sender, EventArgs e)
         {
-            textBoxOutput.Text = Methods[7].Invoke(null, new object[] { double.Parse(textBoxOutput.Text) }).ToString();
+            removeDecimal();
+            textBoxOutput.Text = Calkisen.Power2(double.Parse(textBoxOutput.Text, System.Globalization.NumberStyles.AllowDecimalPoint, System.Globalization.NumberFormatInfo.InvariantInfo)).ToString();
+            //textBoxOutput.Text = Methods[7].Invoke(null, new object[] { double.Parse(textBoxOutput.Text, System.Globalization.NumberStyles.AllowDecimalPoint, System.Globalization.NumberFormatInfo.InvariantInfo) }).ToString();
+            removeDecimal();
         }
 
         private void buttonBackDelete_Click(object sender, EventArgs e)
@@ -283,7 +299,7 @@ namespace wincalcmini
 
         private void buttonPosNeg_Click(object sender, EventArgs e)
         {
-            textBoxOutput.Text = Methods[8].Invoke(null, new object[] { double.Parse(textBoxOutput.Text) }).ToString();
+            textBoxOutput.Text = Calkisen.Invert(double.Parse(textBoxOutput.Text, System.Globalization.NumberStyles.AllowDecimalPoint, System.Globalization.NumberFormatInfo.InvariantInfo)).ToString();
         }
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
@@ -417,6 +433,22 @@ namespace wincalcmini
                 }
                 
                 strömmen.Close();
+            }
+        }
+        public void removeDecimal()
+        {
+            string s = textBoxOutput.Text;
+            textBoxOutput.Text = "";
+            foreach (char c in s)
+            {
+                if(c==',')
+                {
+                    textBoxOutput.Text += '.';
+                }
+                else
+                {
+                    textBoxOutput.Text += c;
+                }
             }
         }
         
