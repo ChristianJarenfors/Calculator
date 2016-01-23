@@ -9,32 +9,32 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Reflection;
 using System.IO;
+using System.Globalization;
 using System.Runtime.Serialization.Formatters.Binary;
 
 namespace wincalcmini
 {
-    delegate void Loggcaller();
     public partial class Form1 : Form
     {
         Kalkylator Calkisen;
-        event Loggcaller BreakEvent;
-        event Loggcaller NegativeEvent;
         MethodInfo[] Methods;
         Logger Loggarn;
-        //double CIcurrentSum = 0;
-        //bool CIinputIsNotDone = true, CIisCalcSelected = false,CIDoubleloader = false,CIfirstInput=true;     
-        //int CIselectedcalcmethod,CIoldCalcMethod;
-        Calcinfo CI = new Calcinfo(12.2,true,true,false,false,true,0,0,null,null);
+        Calcinfo CI = new Calcinfo(0,true,true,false,false,true,0,0,null,null);
         List<string> CalcMethod;
         Stream strömmen;
         BinaryFormatter binForm;
+        
+        NumberFormatInfo fmt ;
+
         public Form1()
         {
             InitializeComponent();
-            
-            
-            binForm = new BinaryFormatter();
+            fmt = new NumberFormatInfo();
 
+            fmt.NegativeSign = "-";
+            fmt.NumberDecimalSeparator = ".";
+            binForm = new BinaryFormatter();
+            
             var DLL = Assembly.LoadFrom("WinCalc.dll");
             var TH = DLL.GetType("WinCalc.Räknare");
             //var c = Activator.CreateInstance(TH);
@@ -154,29 +154,42 @@ namespace wincalcmini
 
         private void buttonPlus_Click(object sender, EventArgs e)
         {
+            removeDecimal();
             UpdateMathOutput(2);
         }
         private void buttonMinus_Click(object sender, EventArgs e)
         {
+            removeDecimal();
             UpdateMathOutput(3);
 
         }
         private void buttonMultiply_Click(object sender, EventArgs e)
         {
+            removeDecimal();
             UpdateMathOutput(4);
         }
         private void buttonDivision_Click(object sender, EventArgs e)
         {
+            removeDecimal();
             UpdateMathOutput(5);
         }
         private void UpdateMathOutput(int v)
         {
             CI.selectedcalcmethod = v;
             CalcTextboxUpdate(CI.selectedcalcmethod);
+            removeDecimal();
             if (CI.firstInput)
             {
-                CI.currentSum = double.Parse(textBoxOutput.Text, System.Globalization.NumberStyles.AllowDecimalPoint, System.Globalization.NumberFormatInfo.InvariantInfo);
-                CI.firstInput = false;
+                if (textBoxOutput.Text != null && textBoxOutput.Text!="")
+                {
+                    CI.currentSum = double.Parse(textBoxOutput.Text,fmt);
+                    CI.firstInput = false;
+                }
+                else
+                {
+                    CI.currentSum = 0;
+                    CI.firstInput = false;
+                }
             }
             else
             {
@@ -190,6 +203,7 @@ namespace wincalcmini
 
         public void calculate(int operation)
         {
+            removeDecimal();
             if (!CI.inputIsNotDone)
             {
                 if (CI.isCalcSelected)
@@ -211,6 +225,10 @@ namespace wincalcmini
         public void CalcTextboxUpdate(int i)
         {
             CI.selectedcalcmethod = i;
+            if (textBoxOutput.Text == null || textBoxOutput.Text == "")
+            {
+                textBoxOutput.Text = "0";
+            }
             if (textBoxCalculations.Text == null || textBoxCalculations.Text == "")
             {
                 textBoxCalculations.Text += textBoxOutput.Text + CalcMethod[(CI.selectedcalcmethod - 2)];
@@ -243,18 +261,21 @@ namespace wincalcmini
 
         private void buttonSum_Click(object sender, EventArgs e)
         {
+            removeDecimal();
             CalcTextboxUpdate(CI.selectedcalcmethod);
             calculate(CI.selectedcalcmethod);
             textBoxCalculations.Text = textBoxCalculations.Text.Remove(textBoxCalculations.Text.Length - 1);
             listBoxHistory.Items.Add(new HistoryRecord(textBoxCalculations.Text, double.Parse(textBoxOutput.Text)));
-            buttonC_Click(null, null);
+            textBoxOutput.Text = "0";
+            textBoxCalculations.Text = null;
+            CI.Creset();
         }
 
         private void buttonC_Click(object sender, EventArgs e)
         {
             textBoxOutput.Text = "0";
             textBoxCalculations.Text = null;
-            CI.Creset();
+            Calkisen.ClearKey();
         }
 
         private void buttonCE_Click(object sender, EventArgs e)
@@ -279,17 +300,18 @@ namespace wincalcmini
         private void buttonSqrt_Click(object sender, EventArgs e)
         {
             removeDecimal();
-            textBoxOutput.Text = Calkisen.SquareRot(double.Parse(textBoxOutput.Text, System.Globalization.NumberStyles.AllowDecimalPoint, System.Globalization.NumberFormatInfo.InvariantInfo)).ToString();
-            //textBoxOutput.Text = Methods[6].Invoke(null, new object[] { double.Parse(textBoxOutput.Text, System.Globalization.NumberStyles.AllowDecimalPoint, System.Globalization.NumberFormatInfo.InvariantInfo) }).ToString();
-            removeDecimal();
+            if (!(double.Parse(textBoxOutput.Text)<0))
+            {
+                textBoxOutput.Text = Calkisen.SquareRot(double.Parse(textBoxOutput.Text, System.Globalization.NumberStyles.AllowDecimalPoint, System.Globalization.NumberFormatInfo.InvariantInfo)).ToString();
+
+            }
         }
 
         private void buttonSquare_Click(object sender, EventArgs e)
         {
             removeDecimal();
             textBoxOutput.Text = Calkisen.Power2(double.Parse(textBoxOutput.Text, System.Globalization.NumberStyles.AllowDecimalPoint, System.Globalization.NumberFormatInfo.InvariantInfo)).ToString();
-            //textBoxOutput.Text = Methods[7].Invoke(null, new object[] { double.Parse(textBoxOutput.Text, System.Globalization.NumberStyles.AllowDecimalPoint, System.Globalization.NumberFormatInfo.InvariantInfo) }).ToString();
-            removeDecimal();
+            
         }
 
         private void buttonBackDelete_Click(object sender, EventArgs e)
@@ -387,20 +409,11 @@ namespace wincalcmini
         {
             if (File.Exists("Restore1.bin"))
             {
-                //Calcinfo CI= new Calcinfo();
                 strömmen = File.Open("Restore1.bin", FileMode.Open, FileAccess.Read);
                 if (!(strömmen.Length==0))
                 {
                     CI = (Calcinfo)binForm.Deserialize(strömmen);
                 }
-                //CIcurrentSum = CI.currentSum;
-
-                //CIinputIsNotDone= CI.inputIsNotDone;
-                //CIisCalcSelected= CI.isCalcSelected;
-                //CIDoubleloader= CI.Doubleloader;
-                //CIfirstInput= CI.firstInput;
-                //CIselectedcalcmethod= CI.selectedcalcmethod;
-                //CIoldCalcMethod = CI.oldCalcMethod;
                 textBoxCalculations.Text = CI.Calculations;
                 textBoxOutput.Text = CI.Output;
                 strömmen.Close(); 

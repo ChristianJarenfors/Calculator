@@ -7,11 +7,12 @@ using System.Reflection;
 
 namespace wincalcmini
 {
-    delegate void EventThrower();
+    delegate void NegativeEventThrower(double dd);
+    delegate void ClearEventThrower();
     class Kalkylator
     {
-        public event EventThrower Negative;
-        public event EventThrower ClearButton;
+        public event NegativeEventThrower Negative;
+        public event ClearEventThrower ClearButton;
         MethodInfo[] Methods;
         Calcinfo CI;
         public Kalkylator(Calcinfo CCI)
@@ -47,7 +48,14 @@ namespace wincalcmini
                     }
             case 5:
                 {
-                    returner = double.Parse(Methods[(switchis )].Invoke(null, new object[] { CI.currentSum, inputdata }).ToString());
+                        if (inputdata == 0)
+                        {
+                            returner = 1337;
+                        }
+                        else
+                        {
+                            returner = double.Parse(Methods[(switchis)].Invoke(null, new object[] { CI.currentSum, inputdata }).ToString());
+                        }
                         break;
                     }
                 default:
@@ -57,7 +65,7 @@ namespace wincalcmini
             }
             if (returner < 0)
             {
-                Negative();
+                Negative(returner);
             }
             CI.currentSum = returner;
         }
@@ -80,6 +88,11 @@ namespace wincalcmini
         public double Invert(double dd)
         {
             return dd * (-1);
+        }
+        public void ClearKey()
+        {
+            CI.Creset();
+            ClearButton();
         }
     }
 }
