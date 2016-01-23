@@ -39,7 +39,7 @@ namespace wincalcmini
             //Instanisering och sättning av min formateringsinfo
             fmt = new NumberFormatInfo();
             fmt.NegativeSign = "-";
-            fmt.NumberDecimalSeparator = ".";
+            fmt.NumberDecimalSeparator = ",";
 
             //Instancing my binaryFormatter
             binForm = new BinaryFormatter();
@@ -121,7 +121,7 @@ namespace wincalcmini
                     //and no input has been done
 
                     // the text is set to "0."
-                    textBoxOutput.Text = "0.";
+                    textBoxOutput.Text = "0,";
                     //Boolflag=false since  now we have input and we have a comma
                     CI.inputIsNotDone = false;
                     CI.decimalBoolNotUsed = false;
@@ -129,170 +129,214 @@ namespace wincalcmini
                 else if (CI.decimalBoolNotUsed)
                 {
                     //if we already have input(CI.inputIsNotDone=false) and if we have no comma already
-                    textBoxOutput.Text += ".";
+
+                    //Add a dot
+                    textBoxOutput.Text += ",";
+                    //and set the flag
                     CI.decimalBoolNotUsed = false;
                 }
 
             }
             else
             {
+                //If someone has loaded from history
+                //Clear calculation 
                 buttonC_Click(null, null);
-                textBoxOutput.Text = "0.";
+                //Set output to "0." 
+                textBoxOutput.Text = "0,";
+                //Input is done, hence = false
                 CI.inputIsNotDone = false;
             }
         }
+
         private void buttonNumber1_Click(object sender, EventArgs e)
         {
-            insertNumber("1");
-            
+            //see above   /\
+            //            ||
+            insertNumber("1");  
         }
 
         private void buttonNumber2_Click(object sender, EventArgs e)
         {
+            //see above   /\
+            //            ||
             insertNumber("2");
         }
         private void buttonNumber3_Click(object sender, EventArgs e)
         {
+            //see above   /\
+            //            ||
             insertNumber("3");
             
         }
         private void buttonNumber4_Click(object sender, EventArgs e)
         {
+            //see above   /\
+            //            ||
             insertNumber("4");
             
         }
         private void buttonNumber5_Click(object sender, EventArgs e)
         {
+            //see above   /\
+            //            ||
             insertNumber("5");
             
         }
         private void buttonNumber6_Click(object sender, EventArgs e)
         {
+            //see above   /\
+            //            ||
             insertNumber("6");
             
         }
 
         private void buttonNumber7_Click(object sender, EventArgs e)
         {
+            //see above   /\
+            //            ||
             insertNumber("7");
             
         }
         private void buttonNumber8_Click(object sender, EventArgs e)
         {
+            //see above   /\
+            //            ||
             insertNumber("8");
             
         }
         private void buttonNumber9_Click(object sender, EventArgs e)
         {
+            //see above   /\
+            //            ||
             insertNumber("9");
             
         }
 
         private void buttonNumber0_Click(object sender, EventArgs e)
         {
+            //see above   /\
+            //            ||
             insertNumber("0");
             
         }
-        
-        
+
+
         #endregion
 
-        #region Operations
-
+        //Arithmetic Buttoncode and Methods used by them
+        #region Arithmetic Operations
+        /*
+        This region contains the code for the Arithmetic buttons
+        It consists of a Method of nesteled methods
+        For more info look at the Arithmetic Method Region
+        */
+        #region Arithmetics buttons
         private void buttonPlus_Click(object sender, EventArgs e)
         {
-            removeDecimal();
+            
             UpdateMathOutput(2);
         }
         private void buttonMinus_Click(object sender, EventArgs e)
         {
-            removeDecimal();
             UpdateMathOutput(3);
 
         }
         private void buttonMultiply_Click(object sender, EventArgs e)
         {
-            removeDecimal();
             UpdateMathOutput(4);
         }
         private void buttonDivision_Click(object sender, EventArgs e)
         {
-            removeDecimal();
             UpdateMathOutput(5);
         }
+        #endregion
+
+
+        //Contains the Arithmetic Methods
+        #region Arithmetics Methods
         private void UpdateMathOutput(int v)
         {
-            CI.selectedcalcmethod = v;
-            CalcTextboxUpdate(CI.selectedcalcmethod);
+            //A format method which might be a bit excessive 
             removeDecimal();
+            
+            //Sets the selectedcalcmethod to the choosen number. The number is based on the
+            //the order in which the method comes in the reflected DLL in the calcylator class. 
+            CI.selectedcalcmethod = v;
+
+            //This is a method that come below. It Updates the Cálculationstextbox
+            CalcTextboxUpdate(CI.selectedcalcmethod);
+            
+            //This is an if-clause to check if its the first input or not 
             if (CI.firstInput)
             {
-                if (textBoxOutput.Text != null && textBoxOutput.Text!="")
+                //If it is. Then...  See if the  the textbox is empty 
+                if (textBoxOutput.Text != null && textBoxOutput.Text != "")
                 {
-                    CI.currentSum = double.Parse(textBoxOutput.Text,fmt);
+                    //If not: store the value
+                    //and change flag
+                    CI.currentSum = double.Parse(textBoxOutput.Text, fmt);
                     CI.firstInput = false;
                 }
                 else
                 {
+                    //else since the textbox is empty set the currentsum to 0 
                     CI.currentSum = 0;
                     CI.firstInput = false;
                 }
             }
             else
             {
+                //A calculationmethod that operates with the previous calcmethod
                 calculate(CI.oldCalcMethod);
             }
+            //Change the oldCalcMethod in order to set the  next Arithmetics method for the next
+            //Calculation
             CI.oldCalcMethod = CI.selectedcalcmethod;
+            //The 2 flags are set to enable new input
             CI.inputIsNotDone = true;
             CI.decimalBoolNotUsed = true;
         }
-        #endregion
 
-        public void calculate(int operation)
-        {
-            removeDecimal();
-            if (!CI.inputIsNotDone)
-            {
-                if (CI.isCalcSelected)
-                {
-                    Calkisen.Calculations((operation),double.Parse(textBoxOutput.Text,fmt));
-                    //CI.currentSum = (double)Methods[operation].Invoke(null, new object[] { CI.currentSum, double.Parse(textBoxOutput.Text, System.Globalization.NumberStyles.AllowDecimalPoint, System.Globalization.NumberFormatInfo.InvariantInfo) });
-                    textBoxOutput.Text = CI.currentSum.ToString();
-                }
-                else
-                {
-                    CI.currentSum = double.Parse(textBoxOutput.Text, fmt);
-                }   
-            }
-            else
-            {
-                CI.currentSum = double.Parse(textBoxOutput.Text, fmt);
-            }
-        }
+        //This Method mainly Updates the textBoxCalculations textbox in case of 
+        //an Arithmetic or sum operation
         public void CalcTextboxUpdate(int i)
         {
+            //this might be excessive
             CI.selectedcalcmethod = i;
+
+            //If the OutPut textBox is empty... ..it is set to currentsum.
             if (textBoxOutput.Text == null || textBoxOutput.Text == "")
             {
-                textBoxOutput.Text = "0";
+                textBoxOutput.Text = CI.currentSum.ToString();
             }
+
+            //If the Calculation textBox is empty... ..it is set to output textbox + the current Arithmetic sign.
             if (textBoxCalculations.Text == null || textBoxCalculations.Text == "")
             {
                 textBoxCalculations.Text += textBoxOutput.Text + CalcMethod[(CI.selectedcalcmethod - 2)];
                 CI.isCalcSelected = true;
-            }else if (CI.Doubleloader)
+            }
+            //if there is something in textBoxCalculations
+            //and if Doubleloader is true
+            //add an arithmetic sign to the calculation
+            else if (CI.Doubleloader)
             {
                 textBoxCalculations.Text += CalcMethod[(CI.selectedcalcmethod - 2)];
                 CI.Doubleloader = false;
                 CI.isCalcSelected = true;
             }
             else
-            {
+            {   
+                //if doubleloader is false
+                // and inputisnotdone is false
+                //then add the output text and the arithmetic sign
                 if (!CI.inputIsNotDone)
                 {
                     textBoxCalculations.Text += textBoxOutput.Text + CalcMethod[(CI.selectedcalcmethod - 2)];
                     CI.isCalcSelected = true;
                 }
+                //otherwise the old arithmetic sign is replaced with a new one
                 else
                 {
                     textBoxCalculations.Text = textBoxCalculations.Text.Remove(textBoxCalculations.Text.Length - 1);
@@ -301,150 +345,204 @@ namespace wincalcmini
                 }
             }
         }
-        public void calculationStringUpdate(bool calcMethod,int operation)
-        { 
-            textBoxCalculations.Text += textBoxOutput.Text + CalcMethod[(operation - 2)];
+        public void calculate(int operation)
+        {
+            //removeDecimal();
+            if (!CI.inputIsNotDone)
+            {
+                //if there have been an input
+                //And a calculation have been previously selected
+                //then A calculation based on currentsum and the outputtextbox text will procced
+                if (CI.isCalcSelected)
+                {
+                    Calkisen.Calculations((operation), double.Parse(textBoxOutput.Text, fmt));
+                    textBoxOutput.Text = CI.currentSum.ToString();
+                }
+                //otherwise the number in textboxoutput is saved in currentsum
+                else
+                {
+                    CI.currentSum = double.Parse(textBoxOutput.Text, fmt);
+                }
+            }
+            //And as above so here if there have'nt been any input
+            else
+            {
+                CI.currentSum = double.Parse(textBoxOutput.Text, fmt);
+            }
         }
+        #endregion
 
+        #endregion
+
+
+
+
+        //Sumbutton
         private void buttonSum_Click(object sender, EventArgs e)
         {
+
             removeDecimal();
+            //Methods already gone through first update the calculationtextbox so all info
+            //is brought to the listbox
+            //Then make sure the current calculation is carried out
             CalcTextboxUpdate(CI.selectedcalcmethod);
             calculate(CI.selectedcalcmethod);
+            
+            //The old arithmetic sign is removed from the Calculationstring before adding it to the listbox
             textBoxCalculations.Text = textBoxCalculations.Text.Remove(textBoxCalculations.Text.Length - 1);
+            //An item is added as  a historyrecord object
             listBoxHistory.Items.Add(new HistoryRecord(textBoxCalculations.Text, double.Parse(textBoxOutput.Text,fmt)));
+
+            //This is basically a C button event but to avoid getting a canceling event i the logg
+            //I reset it piece by piece
             textBoxOutput.Text = "0";
             textBoxCalculations.Text = null;
             CI.Creset();
         }
 
+        //Clearbutton
         private void buttonC_Click(object sender, EventArgs e)
         {
+            //Clears the 2 textboxes and resets the calculation flags and variabels
             textBoxOutput.Text = "0";
             textBoxCalculations.Text = null;
             Calkisen.ClearKey();
         }
 
+        //Clear the entrytextBox
         private void buttonCE_Click(object sender, EventArgs e)
         {
+            //Set the outputdata to 0
             textBoxOutput.Text = "0";
             CI.inputIsNotDone = true;
         }
-
+        //Get PI
         private void buttonPi_Click(object sender, EventArgs e)
         {
+            //gets PI from the calculator object method
             textBoxOutput.Text = Calkisen.PI().ToString();
             CI.inputIsNotDone = false;
 
         }
-
+        //Get e
         private void buttonEuler_Click(object sender, EventArgs e)
         {
+            //gets the Euler constant from the calculator object metod
             textBoxOutput.Text = Calkisen.Euler().ToString();
             CI.inputIsNotDone = false;
         }
-
+        //SquareRoot
         private void buttonSqrt_Click(object sender, EventArgs e)
         {
+            //saftey method
             removeDecimal();
             if (!(double.Parse(textBoxOutput.Text,fmt)<0))
             {
+                //unless the number in textboxoutput is less then 0 the squareroot is calculated
                 textBoxOutput.Text = Calkisen.SquareRot(double.Parse(textBoxOutput.Text,fmt)).ToString();
-
+                CI.inputIsNotDone = false;
             }
         }
-
+        //Number times Number
         private void buttonSquare_Click(object sender, EventArgs e)
         {
             removeDecimal();
+            //Calculates the number multiplied by itself
             textBoxOutput.Text = Calkisen.Power2(double.Parse(textBoxOutput.Text,fmt)).ToString();
-            
+            CI.inputIsNotDone = false;
         }
-
+        //Delete the last entered letter
         private void buttonBackDelete_Click(object sender, EventArgs e)
         {
-            textBoxOutput.Text = textBoxOutput.Text.Remove(textBoxOutput.Text.Length - 1);
+            //Unless it's empty the last number input is removed
+            if (!(textBoxOutput.Text==null||textBoxOutput.Text==""))
+            {
+                textBoxOutput.Text = textBoxOutput.Text.Remove(textBoxOutput.Text.Length - 1);
+                CI.inputIsNotDone = false;
+            }
         }
-
+        //Negate the entered number
         private void buttonPosNeg_Click(object sender, EventArgs e)
         {
+            //The number in textboxoutput times -1
             textBoxOutput.Text = Calkisen.Invert(double.Parse(textBoxOutput.Text, fmt)).ToString();
             CI.inputIsNotDone = false;
         }
-
+        //When the form closes
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
+            //When the form is closed The data for the current session is serialised by these methods
+            //More detail below...
             SaveHistory();
             SaveCurrentCalc();
         }
 
+
+        #region listBoxMethods
+
+        //Laddar object från listboxen när man dubbelklickar
         private void listBoxHistory_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            if (listBoxHistory.SelectedItem!=null)
+            //Om man clickar där det är tomt så kör det inte
+            if (listBoxHistory.SelectedItem != null)
             {
-                buttonC_Click(null, null);
+                //annars så Rensas det med kalkylatorn och Textboxarna får sin info plus att currentsum laddas
+                Calkisen.ClearKey();
                 textBoxCalculations.Text = ((HistoryRecord)listBoxHistory.SelectedItem).s;
-                textBoxOutput.Text = null;
-                foreach (char c in ((HistoryRecord)listBoxHistory.SelectedItem).sum.ToString())
-                {
-                    if (c == ',')
-                    {
-                        textBoxOutput.Text += '.';
-                    }
-                    else
-                    {
-                        textBoxOutput.Text += c.ToString();
-                    }
-                } 
                 CI.currentSum = ((HistoryRecord)listBoxHistory.SelectedItem).sum;
+                textBoxOutput.Text = CI.currentSum.ToString();
                 CI.Doubleloader = true;
             }
         }
-        
 
+        //Rensar listan
         private void buttonDeleteHistory_Click(object sender, EventArgs e)
         {
             listBoxHistory.Items.Clear();
         }
 
+        //Sparning av listboxen i filen "calculations.csv"
         private void buttonExport_Click(object sender, EventArgs e)
         {
             strömmen = File.Open("calculations.csv", FileMode.Create, FileAccess.Write);
             StreamWriter sr = new StreamWriter(strömmen);
-                        
+
+            //Loops each HistoryRecord in thelistbox so that a "," is put inbetween numbers and signs
+            // and new lines for each calculation
             foreach (HistoryRecord item in listBoxHistory.Items)
             {
+                //Here the StringBuilder is reset
                 StringBuilder sb = new StringBuilder();
+                //Every char in the calculation is gone through
                 foreach (char c in item.ToString())
                 {
+                    //If one of these signs appears, "," is inserted
                     if (c == '+' || c == '-' || c == '*' || c == '/' || c == '=')
                     {
                         sb.Append(',');
                         sb.Append(c);
                         sb.Append(',');
-                        //sträng += ",";
+                        
                     }
                     else
                     {
+                        //Otherwise it's added as normal.
                         sb.Append(c);
-                        //sträng += c;
+                        
                     }
                 }
+                //here its written with the streamwriter
                 sr.Write(sb.ToString());
                 sr.Write("\r\n");
-                //sträng = null;
+                
             }
             sr.Flush();
             sr.Close();
             strömmen.Close();
         }
-
-        private void buttonLoggFile_Click(object sender, EventArgs e)
-        {
-            //LoggPopper.Invoke();
-            //MessageBox.Show(Logg);
-        }
-
+        #endregion
+        
+        //Serializes the Calcinfo into "Restore1.bin"
         public void SaveCurrentCalc()
         {
             strömmen = File.Open("Restore1.bin", FileMode.Create, FileAccess.Write);
@@ -453,59 +551,81 @@ namespace wincalcmini
             strömmen.Close();
 
         }
+        //Deserializes "Restore1.bin" and load it into The CalcInfo
         public void LoadCurrentCalc()
         {
+            //If the file exist...
             if (File.Exists("Restore1.bin"))
-            {
+            { 
                 strömmen = File.Open("Restore1.bin", FileMode.Open, FileAccess.Read);
+                //...and if the streamLength isn't 0
                 if (!(strömmen.Length==0))
                 {
+                    //then the stream is deserialzed into CI
                     CI = (Calcinfo)binForm.Deserialize(strömmen);
                 }
+
+                //Some textbox updates
                 textBoxCalculations.Text = CI.Calculations;
                 textBoxOutput.Text = CI.Output;
                 strömmen.Close(); 
             }
         }
+
+        //Serializes the listbox into "Restore2.bin"
         public void SaveHistory()
         {
+            //Stream is opened
             strömmen = File.Open("Restore2.bin", FileMode.Create, FileAccess.Write);
+            //The object to be serialized is created (list)
             List<HistoryRecord> list = new List<HistoryRecord>();
+            //All HistoryRecords are added
             foreach (HistoryRecord item in listBoxHistory.Items)
             {
                 list.Add(item);
             }
+            //Serialize and close
             binForm.Serialize(strömmen, list);
             strömmen.Close();
         }
         public void LoadHistory()
         {
+            // Some basic checks to avoid craches
+            //does it exist?
             if (File.Exists("Restore2.bin"))
             {
                 strömmen = File.Open("Restore2.bin", FileMode.Open, FileAccess.Read);
                 List<HistoryRecord> list = new List<HistoryRecord>();
+                //is it empty?
                 if (!(strömmen.Length==0))
                 {
+                    //and then we go
                     list = (List<HistoryRecord>)binForm.Deserialize(strömmen);
+                    //every item is added
                     foreach (HistoryRecord item in list)
                     {
                         listBoxHistory.Items.Add(item);
                     }
                 }
-                
+                //and close
                 strömmen.Close();
             }
         }
+
+        //this method might be excessive after my Fomatinfo update but i save it as a relic
+        //It Switches "." with ","
         public void removeDecimal()
         {
             string s = textBoxOutput.Text;
             textBoxOutput.Text = "";
             foreach (char c in s)
             {
-                if(c==',')
+                //if a char is "." then add ","
+                if(c=='.')
                 {
-                    textBoxOutput.Text += '.';
+                    textBoxOutput.Text += ',';
                 }
+                //otherwise add the normal char
                 else
                 {
                     textBoxOutput.Text += c;
