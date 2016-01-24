@@ -9,12 +9,13 @@ namespace wincalcmini
 {
     //two diffrent delegates
     delegate void NegativeEventThrower(double dd);
-    delegate void ClearEventThrower();
+    delegate void VoidEventThrower();
     class Kalkylator
     {
         //Events to be used
         public event NegativeEventThrower Negative;
-        public event ClearEventThrower ClearButton;
+        public event VoidEventThrower ClearButton;
+        public event VoidEventThrower DivideByZero;
         //References to be used through the program
         MethodInfo[] Methods;
         Calcinfo CI;
@@ -33,7 +34,7 @@ namespace wincalcmini
         /// <returns></returns>
         public void Calculations(int switchis,double inputdata)
         {
-            double returner = 0;
+            double returner = inputdata;
             switch (switchis)
             {
                 //Addition 
@@ -59,10 +60,17 @@ namespace wincalcmini
                     {
                         if (inputdata == 0)
                         {
+                            //old solution before a more serious one
+                            #region Old Joke
                             //This is a joke. Could be set to anything. in any case dividing by 0 is an infinity
                             //soooo...  ...
                             //returner = 1337;
+                            #endregion
 
+
+                            //Fire an event
+                            DivideByZero();
+                            //Begin reseting calculation
                             CI.Creset();
                         }
 

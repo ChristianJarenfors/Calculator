@@ -14,6 +14,7 @@ namespace wincalcmini
         Stream flow;
         StreamWriter SW;
         Kalkylator Calc;
+        public bool DivideZeroFlag=false;
         //Constructor that sets up the Kalkylator reference with the the kalkylator object used elsewhere (in Form1)
         //also adds two Methods to the events in the kalkylator object
         public Logger(Kalkylator calc)
@@ -21,8 +22,9 @@ namespace wincalcmini
             Calc = calc;
             calc.Negative += NegativeResult;
             calc.ClearButton += ClearPressing;
+            calc.DivideByZero += DividingByZero;
         }
-        public void NegativeResult(double dd)
+        private void NegativeResult(double dd)
         {
             //Opens a stream and sets a streamwriter to it
             flow = File.Open("Logg.txt", FileMode.Append, FileAccess.Write);
@@ -37,7 +39,7 @@ namespace wincalcmini
             SW.Close();
             flow.Close();
         }
-        public void ClearPressing()
+        private void ClearPressing()
         {
             //Opens a stream and sets a streamwriter to it
             flow = File.Open("Logg.txt", FileMode.Append, FileAccess.Write);
@@ -46,6 +48,22 @@ namespace wincalcmini
             //Writes the information in the dokument
             SW.WriteLine(DateTime.Now + "   Canceled Calculation ");
             
+            //FLush and close the Streamwriter and the stream
+            flow.Flush();
+            SW.Flush();
+            SW.Close();
+            flow.Close();
+        }
+        private void DividingByZero()
+        {
+            DivideZeroFlag = true;
+            //Opens a stream and sets a streamwriter to it
+            flow = File.Open("Logg.txt", FileMode.Append, FileAccess.Write);
+            SW = new StreamWriter(flow);
+
+            //Writes the information in the dokument
+            SW.WriteLine(DateTime.Now + "   Divide by 0 ");
+
             //FLush and close the Streamwriter and the stream
             flow.Flush();
             SW.Flush();

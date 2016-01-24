@@ -60,6 +60,7 @@ namespace wincalcmini
             inputIsNotDone = true;
             firstInput = true;
             Doubleloader = false;
+            selectedcalcmethod = 2;
         }
     }
 }

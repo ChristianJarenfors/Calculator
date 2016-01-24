@@ -14,6 +14,13 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace wincalcmini
 {
+    /*
+    ****************************************************************************************************
+    This Program has been commented in both english and swedish due to my mind wandering away while
+    Commentating. Though it's mostly english and I would have prefered to Have it all English. to
+    Save me some trauma I will leave it like this for the time being. 
+    ****************************************************************************************************
+        */ 
     public partial class Form1 : Form
     {
         //Kalkylatorns referens
@@ -40,7 +47,7 @@ namespace wincalcmini
             fmt = new NumberFormatInfo();
             fmt.NegativeSign = "-";
             fmt.NumberDecimalSeparator = ",";
-
+            
             //Instancing my binaryFormatter
             binForm = new BinaryFormatter();
 
@@ -345,7 +352,7 @@ namespace wincalcmini
                 }
             }
         }
-        public void calculate(int operation)
+        public bool calculate(int operation)
         {
             //removeDecimal();
             if (!CI.inputIsNotDone)
@@ -357,6 +364,23 @@ namespace wincalcmini
                 {
                     Calkisen.Calculations((operation), double.Parse(textBoxOutput.Text, fmt));
                     textBoxOutput.Text = CI.currentSum.ToString();
+                    if (Loggarn.DivideZeroFlag)
+                    {
+                        textBoxCalculations.Text = "";
+                        MessageBox.Show("Can't Divide by 0. Calculation is Cleared");
+                        Loggarn.DivideZeroFlag = false;
+                        return false;
+                    }
+                    if (CI.currentSum> 1.7976931348623157E+308)
+                    {
+                        MessageBox.Show("Too big number. Calculations is resetting...");
+                        buttonC_Click(null, null);
+                    }
+                    else if (-1.7976931348623157E+308 > CI.currentSum)
+                    {
+                        MessageBox.Show("Too small number. Calculations is resetting...");
+                        buttonC_Click(null,null);
+                    }
                 }
                 //otherwise the number in textboxoutput is saved in currentsum
                 else
@@ -369,6 +393,7 @@ namespace wincalcmini
             {
                 CI.currentSum = double.Parse(textBoxOutput.Text, fmt);
             }
+            return true;
         }
         #endregion
 
@@ -384,15 +409,17 @@ namespace wincalcmini
             removeDecimal();
             //Methods already gone through first update the calculationtextbox so all info
             //is brought to the listbox
-            //Then make sure the current calculation is carried out
             CalcTextboxUpdate(CI.selectedcalcmethod);
-            calculate(CI.selectedcalcmethod);
             
             //The old arithmetic sign is removed from the Calculationstring before adding it to the listbox
             textBoxCalculations.Text = textBoxCalculations.Text.Remove(textBoxCalculations.Text.Length - 1);
-            //An item is added as  a historyrecord object
-            listBoxHistory.Items.Add(new HistoryRecord(textBoxCalculations.Text, double.Parse(textBoxOutput.Text,fmt)));
 
+            //Then make sure the current calculation is carried out and if everything is ok...
+            if (calculate(CI.selectedcalcmethod))
+            {
+                //... An item is added as  a historyrecord object unless there have been an error in calculations
+                listBoxHistory.Items.Add(new HistoryRecord(textBoxCalculations.Text, double.Parse(textBoxOutput.Text, fmt)));
+            }
             //This is basically a C button event but to avoid getting a canceling event i the logg
             //I reset it piece by piece
             textBoxOutput.Text = "0";
@@ -447,15 +474,31 @@ namespace wincalcmini
         private void buttonSquare_Click(object sender, EventArgs e)
         {
             removeDecimal();
-            //Calculates the number multiplied by itself
-            textBoxOutput.Text = Calkisen.Power2(double.Parse(textBoxOutput.Text,fmt)).ToString();
-            CI.inputIsNotDone = false;
+            if (textBoxOutput.Text != "∞")
+            {
+                textBoxOutput.Text = Calkisen.Power2(double.Parse(textBoxOutput.Text, fmt)).ToString();
+                CI.inputIsNotDone = false;
+            }
+            else
+            {
+                buttonC_Click(null, null);
+            }
+            
         }
         //Delete the last entered letter
         private void buttonBackDelete_Click(object sender, EventArgs e)
         {
             //Unless it's empty the last number input is removed
-            if (!(textBoxOutput.Text==null||textBoxOutput.Text==""))
+            //Some check are being made to ensure we don't remove the E numbers or "E" itself
+            if (textBoxOutput.Text.Length>=4 && textBoxOutput.Text[textBoxOutput.Text.Length-4]=='E')
+            {
+                textBoxOutput.Text = textBoxOutput.Text.Remove(textBoxOutput.Text.Length - 5,1);
+                CI.inputIsNotDone = false;
+            }else if (textBoxOutput.Text.Length >= 5 && textBoxOutput.Text[textBoxOutput.Text.Length - 5] == 'E')
+            {
+                textBoxOutput.Text = textBoxOutput.Text.Remove(textBoxOutput.Text.Length - 6,1);
+                CI.inputIsNotDone = false;
+            }else if (!(textBoxOutput.Text==null||textBoxOutput.Text==""))
             {
                 textBoxOutput.Text = textBoxOutput.Text.Remove(textBoxOutput.Text.Length - 1);
                 CI.inputIsNotDone = false;
@@ -632,7 +675,14 @@ namespace wincalcmini
                 }
             }
         }
-        
-
+        //Utifall att man går utanför typens ramar
+        private void textBoxOutput_TextChanged(object sender, EventArgs e)
+        {
+            if(textBoxOutput.Text.Contains('∞'))
+            {
+                MessageBox.Show("Too big or too small number for the current type. \r\n Hence the calculation will be cancelled. \r\n Be more carefull next time ;P");
+                buttonC_Click(null, null);
+            }
+        }
     }
 }
