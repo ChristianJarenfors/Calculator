@@ -422,9 +422,24 @@ namespace wincalcmini
             }
             //This is basically a C button event but to avoid getting a canceling event i the logg
             //I reset it piece by piece
-            textBoxOutput.Text = "0";
+
+            #region CHANGE`S 1.
+            //Old code, Would return 0 to the Output textbox after sum
+            
+            //textBoxOutput.Text = "0";
+            //textBoxCalculations.Text = null;
+            //CI.Creset();
+
+            //New code, Let's the value of the outputbox retain it's value to the next calculation
+
             textBoxCalculations.Text = null;
             CI.Creset();
+            CI.currentSum = double.Parse(textBoxOutput.Text, fmt);
+            #endregion
+
+
+
+
         }
 
         //Clearbutton

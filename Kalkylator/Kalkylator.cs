@@ -31,7 +31,7 @@ namespace wincalcmini
         /// </summary>
         /// <param name="switchis">Choose between the Arithmetics</param>
         /// <param name="inputdata">The number to count with</param>
-        /// <returns></returns>
+        /// <returns>Sets CI.currentsum to the calculated value</returns>
         public void Calculations(int switchis,double inputdata)
         {
             double returner = inputdata;
@@ -67,9 +67,16 @@ namespace wincalcmini
                             //returner = 1337;
                             #endregion
 
-
+                            #region CHANGE`S 2
+                            //Added null check.
                             //Fire an event
-                            DivideByZero();
+                            if (DivideByZero != null)
+                            {
+                                DivideByZero();
+                            }
+                            #endregion
+
+
                             //Begin reseting calculation
                             CI.Creset();
                         }
@@ -88,7 +95,15 @@ namespace wincalcmini
             //If the answer is less then 0 throw the Negative event with returner as parameter
             if (returner < 0)
             {
-                Negative(returner);
+                #region CHANGE`S 3
+                //Added Nullcheck
+                if (Negative != null)
+                {
+                    Negative(returner);
+                }
+                #endregion
+
+
             }
             //finaly set CI.currentsum to the value
             CI.currentSum = returner;
@@ -123,7 +138,15 @@ namespace wincalcmini
         public void ClearKey()
         {
             CI.Creset();
-            ClearButton();
+            #region CHANGE`S 4
+            //Added null check..
+            if (ClearButton != null)
+            {
+                ClearButton();
+            }
+            #endregion
+
+
         }
     }
 }
